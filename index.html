@@ -2,7 +2,8 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+  <!-- Accessibility: Allow user zooming up to 200% per WCAG 2.1 Success Criterion 1.4.4 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0813">
   <meta name="description" content="A world-class digital tribute and celebration of grace, beauty, and intellect for Olaitan Ameenat.">
   <title>Olaitan Ameenat — A Birthday Monograph 🕊️</title>
@@ -16,7 +17,10 @@
 </head>
 <body class="editorial-body">
 
-  <!-- Ambient Cinematic Grain & Aurora Mesh -->
+  <!-- Accessible Skip to Main Content Link -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+  <!-- Ambient Cinematic Grain & Aurora Mesh (Decorational - Hidden from Screen Readers) -->
   <div class="mesh-canvas-wrap" aria-hidden="true">
     <div class="aurora-orb orb-alpha"></div>
     <div class="aurora-orb orb-beta"></div>
@@ -24,39 +28,39 @@
     <div class="grain-overlay"></div>
   </div>
 
-  <!-- Particle Supernova Canvas for Confetti & Candle Bursts -->
+  <!-- Particle Supernova Canvas for Confetti & Candle Bursts (Decorational) -->
   <canvas id="particleCanvas" aria-hidden="true"></canvas>
 
-  <!-- Tap Sparkle Particle Layer -->
+  <!-- Tap Sparkle Particle Layer (Decorational) -->
   <div id="touchRippleLayer" class="touch-ripple-layer" aria-hidden="true"></div>
 
-  <!-- Fullscreen Photo Lightbox Modal -->
-  <div class="lightbox-modal" id="lightboxModal" aria-hidden="true" role="dialog" aria-label="Photo Lightbox">
-    <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+  <!-- Fullscreen Photo Lightbox Modal with Full ARIA Accessibility -->
+  <div class="lightbox-modal" id="lightboxModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Photo Lightbox Viewer">
+    <div class="lightbox-backdrop" id="lightboxBackdrop" tabindex="-1"></div>
     <div class="lightbox-content">
-      <button class="lightbox-close-btn" id="lightboxCloseBtn" aria-label="Close Lightbox">✕</button>
-      <button class="lightbox-nav-btn prev-btn" id="lightboxPrevBtn" aria-label="Previous Photo">‹</button>
+      <button class="lightbox-close-btn" id="lightboxCloseBtn" aria-label="Close Lightbox (Press Escape)">✕</button>
+      <button class="lightbox-nav-btn prev-btn" id="lightboxPrevBtn" aria-label="Previous Photo (Left Arrow)">‹</button>
       <div class="lightbox-img-wrap">
-        <img src="pics/1.JPG" alt="Olaitan Ameenat" id="lightboxImg">
-        <div class="lightbox-caption" id="lightboxCaption">Olaitan Ameenat • Chapter I</div>
+        <img src="pics/1.JPG" alt="Olaitan Ameenat photo" id="lightboxImg">
+        <div class="lightbox-caption" id="lightboxCaption" aria-live="polite">Olaitan Ameenat • Chapter I</div>
       </div>
-      <button class="lightbox-nav-btn next-btn" id="lightboxNextBtn" aria-label="Next Photo">›</button>
+      <button class="lightbox-nav-btn next-btn" id="lightboxNextBtn" aria-label="Next Photo (Right Arrow)">›</button>
     </div>
   </div>
 
   <!-- Top Glass Editorial Navigation Bar -->
-  <header class="editorial-nav">
+  <header class="editorial-nav" role="banner">
     <div class="nav-container">
       <div class="nav-monogram">
-        <img src="pics/1.JPG" alt="Ameenat" class="nav-avatar">
+        <img src="pics/1.JPG" alt="Portrait avatar of Olaitan Ameenat" class="nav-avatar">
         <span class="mono-initials">OA</span>
-        <span class="mono-divider">/</span>
+        <span class="mono-divider" aria-hidden="true">/</span>
         <span class="mono-date">CHAPTER XXVI</span>
       </div>
 
       <div class="nav-actions">
         <!-- Ambient Soundscape Generator -->
-        <button id="soundscapeBtn" class="pill-nav-btn" aria-label="Toggle Ambient Audio" title="Soundscape">
+        <button id="soundscapeBtn" class="pill-nav-btn" aria-label="Toggle Ambient Audio Soundscape" aria-pressed="false" title="Toggle Soundscape">
           <span class="audio-waves" aria-hidden="true">
             <span></span><span></span><span></span><span></span>
           </span>
@@ -64,36 +68,36 @@
         </button>
 
         <!-- Aesthetic Theme Switcher -->
-        <button id="themeSwitchBtn" class="pill-nav-btn icon-only" aria-label="Toggle Theme" title="Theme">
-          <span class="theme-icon">✨</span>
+        <button id="themeSwitchBtn" class="pill-nav-btn icon-only" aria-label="Toggle High-Contrast Light and Dark Themes" title="Switch Theme">
+          <span class="theme-icon" aria-hidden="true">✨</span>
         </button>
       </div>
     </div>
 
     <!-- Reading Progress Indicator -->
-    <div class="nav-progress-track">
+    <div class="nav-progress-track" aria-hidden="true">
       <div class="nav-progress-bar" id="progressBar"></div>
     </div>
   </header>
 
-  <main class="editorial-wrapper">
+  <main class="editorial-wrapper" id="main-content">
 
     <!-- HERO ACT: THE INVOCATION -->
-    <section class="act-hero" id="act-hero">
+    <section class="act-hero" id="act-hero" aria-labelledby="hero-title">
       <div class="hero-overtitle">
-        <span class="editorial-line"></span>
+        <span class="editorial-line" aria-hidden="true"></span>
         <span class="overtitle-text">A Celebration of Grace &amp; Wisdom</span>
-        <span class="editorial-line"></span>
+        <span class="editorial-line" aria-hidden="true"></span>
       </div>
 
-      <h1 class="hero-main-title">
+      <h1 class="hero-main-title" id="hero-title">
         <span class="title-sub">To The Incomparable</span>
         <span class="title-name">Olaitan Ameenat</span>
       </h1>
 
       <!-- Glowing Bespoke Signature SVG -->
-      <div class="sig-container" aria-hidden="true">
-        <svg class="editorial-sig-svg" viewBox="0 0 800 170">
+      <div class="sig-container" aria-label="Calligraphic signature of Olaitan Ameenat">
+        <svg class="editorial-sig-svg" viewBox="0 0 800 170" role="img" aria-label="Olaitan Ameenat">
           <defs>
             <linearGradient id="sigGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#fcedc7" />
@@ -114,11 +118,11 @@
 
       <!-- Hero Editorial Portrait Medallion -->
       <div class="hero-portrait-wrap">
-        <div class="hero-portrait-halo"></div>
-        <div class="hero-portrait-frame">
-          <img src="pics/1.JPG" alt="Queen Olaitan Ameenat" class="hero-portrait-img" data-full="pics/1.JPG" data-caption="Queen Olaitan Ameenat • The Birthday Star">
+        <div class="hero-portrait-halo" aria-hidden="true"></div>
+        <div class="hero-portrait-frame" tabindex="0" role="button" aria-label="Enlarge portrait of Birthday Queen Olaitan Ameenat">
+          <img src="pics/1.JPG" alt="Queen Olaitan Ameenat looking elegant in portrait" class="hero-portrait-img" data-full="pics/1.JPG" data-caption="Queen Olaitan Ameenat • The Birthday Star">
           <div class="hero-portrait-badge">
-            <span class="badge-spark">✨</span>
+            <span class="badge-spark" aria-hidden="true">✨</span>
             <span>The Birthday Queen</span>
           </div>
         </div>
@@ -129,74 +133,74 @@
       </p>
 
       <!-- SANCTUARY OF THE CANDLE: A MINIMALIST LUMINESCENT SHRINE -->
-      <div class="candle-sanctuary" id="candleSanctuary">
-        <div class="sanctuary-halo"></div>
+      <div class="candle-sanctuary" id="candleSanctuary" role="region" aria-label="Birthday Candle Ceremony">
+        <div class="sanctuary-halo" aria-hidden="true"></div>
         
-        <div class="luminescent-candle" id="candleArtifact">
-          <div class="flame-halo" id="flameHalo"></div>
-          <div class="flame-element" id="flameElement">
+        <div class="luminescent-candle" id="candleArtifact" tabindex="0" role="button" aria-pressed="false" aria-label="Interactive birthday candle. Tap to blow out and make a wish.">
+          <div class="flame-halo" id="flameHalo" aria-hidden="true"></div>
+          <div class="flame-element" id="flameElement" aria-hidden="true">
             <div class="flame-inner"></div>
           </div>
-          <div class="candle-wick"></div>
-          <div class="smoke-wisp" id="smokeWisp"></div>
-          <div class="glass-stem">
+          <div class="candle-wick" aria-hidden="true"></div>
+          <div class="smoke-wisp" id="smokeWisp" aria-hidden="true"></div>
+          <div class="glass-stem" aria-hidden="true">
             <div class="candle-wax-body"></div>
           </div>
-          <div class="candle-base-pedestal"></div>
+          <div class="candle-base-pedestal" aria-hidden="true"></div>
         </div>
 
         <div class="candle-controls">
-          <button class="ceremonial-btn" id="blowCandleBtn">
-            <span class="btn-shimmer"></span>
-            <span class="btn-icon-symbol">🕯️</span>
+          <button class="ceremonial-btn" id="blowCandleBtn" aria-pressed="false">
+            <span class="btn-shimmer" aria-hidden="true"></span>
+            <span class="btn-icon-symbol" aria-hidden="true">🕯️</span>
             <span class="btn-label" id="candleBtnLabel">Blow The Flame &amp; Cast A Wish</span>
           </button>
-          <div class="ritual-fortune" id="ritualFortune">
+          <div class="ritual-fortune" id="ritualFortune" aria-live="polite">
             <span>Tap the flame or button to release birthday grace into the universe.</span>
           </div>
         </div>
       </div>
 
       <!-- Quick Metrics of Grace -->
-      <div class="hero-stats-row">
-        <div class="stat-cell">
+      <div class="hero-stats-row" role="list" aria-label="Highlights of the Year">
+        <div class="stat-cell" role="listitem">
           <span class="stat-number">365</span>
           <span class="stat-descriptor">Days of Radiance</span>
         </div>
-        <div class="stat-divider"></div>
-        <div class="stat-cell">
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-cell" role="listitem">
           <span class="stat-number">100%</span>
           <span class="stat-descriptor">Devoted Educator</span>
         </div>
-        <div class="stat-divider"></div>
-        <div class="stat-cell">
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-cell" role="listitem">
           <span class="stat-number">∞</span >
           <span class="stat-descriptor">Endless Love</span>
         </div>
       </div>
 
-      <a href="#act-virtues" class="scroll-down-invitation" aria-label="Explore the monograph">
+      <a href="#act-virtues" class="scroll-down-invitation" aria-label="Scroll down to begin exploring the monograph">
         <span class="invitation-text">Begin The Journey</span>
-        <div class="invitation-arrow"></div>
+        <div class="invitation-arrow" aria-hidden="true"></div>
       </a>
     </section>
 
 
     <!-- ACT I: THE ESSENCE (THE FOUR CORNERSTONES OF HER SOUL) -->
-    <section class="editorial-act" id="act-virtues">
+    <section class="editorial-act" id="act-virtues" aria-labelledby="virtues-title">
       <div class="act-header">
         <span class="act-number">I / PORTRAIT</span>
-        <h2 class="act-title">The Cornerstones of Her Soul</h2>
+        <h2 class="act-title" id="virtues-title">The Cornerstones of Her Soul</h2>
         <p class="act-subtitle">What makes Olaitan so cherished by the universe.</p>
       </div>
 
-      <div class="virtues-mosaic">
+      <div class="virtues-mosaic" role="list">
         <!-- Virtue 1 -->
-        <article class="virtue-tile" tabindex="0">
-          <div class="tile-backdrop"></div>
+        <article class="virtue-tile" tabindex="0" role="listitem">
+          <div class="tile-backdrop" aria-hidden="true"></div>
           <div class="tile-header">
-            <span class="tile-index">01</span>
-            <span class="tile-glyph">🌸</span>
+            <span class="tile-index" aria-hidden="true">01</span>
+            <span class="tile-glyph" aria-hidden="true">🌸</span>
           </div>
           <h3 class="tile-heading">Gentle Radiance</h3>
           <p class="tile-body">
@@ -206,11 +210,11 @@
         </article>
 
         <!-- Virtue 2 -->
-        <article class="virtue-tile featured" tabindex="0">
-          <div class="tile-backdrop"></div>
+        <article class="virtue-tile featured" tabindex="0" role="listitem">
+          <div class="tile-backdrop" aria-hidden="true"></div>
           <div class="tile-header">
-            <span class="tile-index">02</span>
-            <span class="tile-glyph">📚</span>
+            <span class="tile-index" aria-hidden="true">02</span>
+            <span class="tile-glyph" aria-hidden="true">📚</span>
           </div>
           <h3 class="tile-heading">The Dedicated Educator</h3>
           <p class="tile-body">
@@ -220,11 +224,11 @@
         </article>
 
         <!-- Virtue 3 -->
-        <article class="virtue-tile" tabindex="0">
-          <div class="tile-backdrop"></div>
+        <article class="virtue-tile" tabindex="0" role="listitem">
+          <div class="tile-backdrop" aria-hidden="true"></div>
           <div class="tile-header">
-            <span class="tile-index">03</span>
-            <span class="tile-glyph">✨</span>
+            <span class="tile-index" aria-hidden="true">03</span>
+            <span class="tile-glyph" aria-hidden="true">✨</span>
           </div>
           <h3 class="tile-heading">Unwavering Kindness</h3>
           <p class="tile-body">
@@ -234,11 +238,11 @@
         </article>
 
         <!-- Virtue 4 -->
-        <article class="virtue-tile" tabindex="0">
-          <div class="tile-backdrop"></div>
+        <article class="virtue-tile" tabindex="0" role="listitem">
+          <div class="tile-backdrop" aria-hidden="true"></div>
           <div class="tile-header">
-            <span class="tile-index">04</span>
-            <span class="tile-glyph">💎</span>
+            <span class="tile-index" aria-hidden="true">04</span>
+            <span class="tile-glyph" aria-hidden="true">💎</span>
           </div>
           <h3 class="tile-heading">Resilient Grace</h3>
           <p class="tile-body">
@@ -249,12 +253,12 @@
       </div>
 
       <!-- Affirmation Oracle Box -->
-      <div class="oracle-capsule">
+      <div class="oracle-capsule" role="region" aria-label="Daily Affirmation Dispenser">
         <div class="oracle-eyebrow">A DAILY TRUTH FOR OLAITAN</div>
-        <blockquote class="oracle-quote" id="oracleQuote">
+        <blockquote class="oracle-quote" id="oracleQuote" aria-live="polite">
           “Your heart gives without keeping count, and the heavens never forget a single seed you sow.”
         </blockquote>
-        <button class="oracle-refresh-btn" id="oracleNextBtn">
+        <button class="oracle-refresh-btn" id="oracleNextBtn" aria-label="Reveal another reflection affirmation">
           <span>Reveal Another Reflection 💫</span>
         </button>
       </div>
@@ -262,11 +266,11 @@
 
 
     <!-- ACT II: THE TRIBUTE TO AN INSPIRATIONAL TEACHER -->
-    <section class="editorial-act act-monograph" id="act-educator">
+    <section class="editorial-act act-monograph" id="act-educator" aria-label="Educator Tribute">
       <div class="monograph-panel">
-        <div class="monograph-ornament">❦</div>
-        <div class="monograph-photo-accent">
-          <img src="pics/11.JPG" alt="Olaitan Ameenat teaching" class="educator-accent-img" data-full="pics/11.JPG" data-caption="Educator of Luminous Minds • Olaitan">
+        <div class="monograph-ornament" aria-hidden="true">❦</div>
+        <div class="monograph-photo-accent" tabindex="0" role="button" aria-label="Enlarge photo of Olaitan the Educator">
+          <img src="pics/11.JPG" alt="Olaitan Ameenat teaching and inspiring" class="educator-accent-img" data-full="pics/11.JPG" data-caption="Educator of Luminous Minds • Olaitan">
         </div>
         <h3 class="monograph-quote">
           “A teacher affects eternity; she can never tell where her influence stops.”
@@ -280,32 +284,32 @@
 
 
     <!-- ACT III: THE GALLERY OF CHERISHED MOMENTS (WITH REAL PHOTOS) -->
-    <section class="editorial-act" id="act-gallery">
+    <section class="editorial-act" id="act-gallery" aria-labelledby="gallery-title">
       <div class="act-header">
         <span class="act-number">II / ARCHIVE</span>
-        <h2 class="act-title">The Gallery of Cherished Moments</h2>
+        <h2 class="act-title" id="gallery-title">The Gallery of Cherished Moments</h2>
         <p class="act-subtitle">Tap each framed memory to turn the card and read its handwritten note. Tap the photo to view in full resolution.</p>
       </div>
 
       <!-- 6 Featured Interactive 3D Polaroid Cards -->
       <div class="gallery-mosaic">
         <!-- Frame 1: pics/2.JPG -->
-        <div class="editorial-frame" tabindex="0">
+        <div class="editorial-frame" tabindex="0" role="button" aria-expanded="false" aria-label="Card 1: The Smile That Resets The Day. Tap to flip and read note.">
           <div class="frame-flipper">
             <div class="frame-front">
-              <div class="vintage-tape"></div>
+              <div class="vintage-tape" aria-hidden="true"></div>
               <div class="frame-visual">
-                <img src="pics/2.JPG" alt="The Incomparable Smile" class="polaroid-photo" data-full="pics/2.JPG" data-caption="The Incomparable Smile • Chapter I">
+                <img src="pics/2.JPG" alt="Olaitan smiling warmly" class="polaroid-photo" data-full="pics/2.JPG" data-caption="The Incomparable Smile • Chapter I">
                 <span class="visual-badge">The Smile</span>
               </div>
               <div class="frame-meta">
                 <span class="meta-season">Chapter 01</span>
                 <h4>The Smile That Resets The Day</h4>
               </div>
-              <div class="frame-flip-cta">Tap to flip ↺</div>
+              <div class="frame-flip-cta" aria-hidden="true">Tap to flip ↺</div>
             </div>
             <div class="frame-back">
-              <div class="vintage-tape"></div>
+              <div class="vintage-tape" aria-hidden="true"></div>
               <div class="back-body">
                 <span class="back-script-accent">Note #01</span>
                 <h5>The Golden Hour</h5>
@@ -317,22 +321,22 @@
         </div>
 
         <!-- Frame 2: pics/3.JPG -->
-        <div class="editorial-frame" tabindex="0">
+        <div class="editorial-frame" tabindex="0" role="button" aria-expanded="false" aria-label="Card 2: Passion & Dedication. Tap to flip and read note.">
           <div class="frame-flipper">
             <div class="frame-front">
-              <div class="vintage-tape"></div>
+              <div class="vintage-tape" aria-hidden="true"></div>
               <div class="frame-visual">
-                <img src="pics/3.JPG" alt="Passion & Elegance" class="polaroid-photo" data-full="pics/3.JPG" data-caption="Passion & Elegance • Chapter II">
+                <img src="pics/3.JPG" alt="Olaitan dressed elegantly" class="polaroid-photo" data-full="pics/3.JPG" data-caption="Passion & Elegance • Chapter II">
                 <span class="visual-badge">The Calling</span>
               </div>
               <div class="frame-meta">
                 <span class="meta-season">Chapter 02</span>
                 <h4>Passion &amp; Dedication</h4>
               </div>
-              <div class="frame-flip-cta">Tap to flip ↺</div>
+              <div class="frame-flip-cta" aria-hidden="true">Tap to flip ↺</div>
             </div>
             <div class="frame-back">
-              <div class="vintage-tape"></div>
+              <div class="vintage-tape" aria-hidden="true"></div>
               <div class="back-body">
                 <span class="back-script-accent">Note #02</span>
                 <h5>The Gift of Knowledge</h5>
@@ -344,22 +348,22 @@
         </div>
 
         <!-- Frame 3: pics/4.JPG -->
-        <div class="editorial-frame" tabindex="0">
+        <div class="editorial-frame" tabindex="0" role="button" aria-expanded="false" aria-label="Card 3: Grace That Never Wavered. Tap to flip and read note.">
           <div class="frame-flipper">
             <div class="frame-front">
-              <div class="vintage-tape"></div>
+              <div class="vintage-tape" aria-hidden="true"></div>
               <div class="frame-visual">
-                <img src="pics/4.JPG" alt="Grace Unbroken" class="polaroid-photo" data-full="pics/4.JPG" data-caption="Grace That Never Wavered • Chapter III">
+                <img src="pics/4.JPG" alt="Olaitan exuding poise and calm" class="polaroid-photo" data-full="pics/4.JPG" data-caption="Grace That Never Wavered • Chapter III">
                 <span class="visual-badge">The Heart</span>
               </div>
               <div class="frame-meta">
                 <span class="meta-season">Chapter 03</span>
                 <h4>Grace That Never Wavered</h4>
               </div>
-              <div class="frame-flip-cta">Tap to flip ↺</div>
+              <div class="frame-flip-cta" aria-hidden="true">Tap to flip ↺</div>
             </div>
             <div class="frame-back">
-              <div class="vintage-tape"></div>
+              <div class="vintage-tape" aria-hidden="true"></div>
               <div class="back-body">
                 <span class="back-script-accent">Note #03</span>
                 <h5>Quiet Strength</h5>
@@ -371,22 +375,22 @@
         </div>
 
         <!-- Frame 4: pics/5.JPG -->
-        <div class="editorial-frame" tabindex="0">
+        <div class="editorial-frame" tabindex="0" role="button" aria-expanded="false" aria-label="Card 4: The Unfolding Horizon. Tap to flip and read note.">
           <div class="frame-flipper">
             <div class="frame-front">
-              <div class="vintage-tape"></div>
+              <div class="vintage-tape" aria-hidden="true"></div>
               <div class="frame-visual">
-                <img src="pics/5.JPG" alt="The Unfolding Horizon" class="polaroid-photo" data-full="pics/5.JPG" data-caption="The Unfolding Horizon • Chapter IV">
+                <img src="pics/5.JPG" alt="Olaitan looking joyfully forward" class="polaroid-photo" data-full="pics/5.JPG" data-caption="The Unfolding Horizon • Chapter IV">
                 <span class="visual-badge">The Future</span>
               </div>
               <div class="frame-meta">
                 <span class="meta-season">Chapter 04</span>
                 <h4>The Unfolding Horizon</h4>
               </div>
-              <div class="frame-flip-cta">Tap to flip ↺</div>
+              <div class="frame-flip-cta" aria-hidden="true">Tap to flip ↺</div>
             </div>
             <div class="frame-back">
-              <div class="vintage-tape"></div>
+              <div class="vintage-tape" aria-hidden="true"></div>
               <div class="back-body">
                 <span class="back-script-accent">Note #04</span>
                 <h5>Your Best Chapter Yet</h5>
@@ -398,22 +402,22 @@
         </div>
 
         <!-- Frame 5: pics/6.JPG -->
-        <div class="editorial-frame" tabindex="0">
+        <div class="editorial-frame" tabindex="0" role="button" aria-expanded="false" aria-label="Card 5: Warmth in Every Stride. Tap to flip and read note.">
           <div class="frame-flipper">
             <div class="frame-front">
-              <div class="vintage-tape"></div>
+              <div class="vintage-tape" aria-hidden="true"></div>
               <div class="frame-visual">
-                <img src="pics/6.JPG" alt="Radiant Warmth" class="polaroid-photo" data-full="pics/6.JPG" data-caption="Radiant Warmth • Chapter V">
+                <img src="pics/6.JPG" alt="Olaitan radiating happiness" class="polaroid-photo" data-full="pics/6.JPG" data-caption="Radiant Warmth • Chapter V">
                 <span class="visual-badge">Pure Light</span>
               </div>
               <div class="frame-meta">
                 <span class="meta-season">Chapter 05</span>
                 <h4>Warmth in Every Stride</h4>
               </div>
-              <div class="frame-flip-cta">Tap to flip ↺</div>
+              <div class="frame-flip-cta" aria-hidden="true">Tap to flip ↺</div>
             </div>
             <div class="frame-back">
-              <div class="vintage-tape"></div>
+              <div class="vintage-tape" aria-hidden="true"></div>
               <div class="back-body">
                 <span class="back-script-accent">Note #05</span>
                 <h5>The Sanctuary</h5>
@@ -425,22 +429,22 @@
         </div>
 
         <!-- Frame 6: pics/7.JPG -->
-        <div class="editorial-frame" tabindex="0">
+        <div class="editorial-frame" tabindex="0" role="button" aria-expanded="false" aria-label="Card 6: In a League of Her Own. Tap to flip and read note.">
           <div class="frame-flipper">
             <div class="frame-front">
-              <div class="vintage-tape"></div>
+              <div class="vintage-tape" aria-hidden="true"></div>
               <div class="frame-visual">
-                <img src="pics/7.JPG" alt="Queenly Majesty" class="polaroid-photo" data-full="pics/7.JPG" data-caption="One of One • Chapter VI">
+                <img src="pics/7.JPG" alt="Olaitan in regal royal attire" class="polaroid-photo" data-full="pics/7.JPG" data-caption="One of One • Chapter VI">
                 <span class="visual-badge">One of One</span>
               </div>
               <div class="frame-meta">
                 <span class="meta-season">Chapter 06</span>
                 <h4>In a League of Her Own</h4>
               </div>
-              <div class="frame-flip-cta">Tap to flip ↺</div>
+              <div class="frame-flip-cta" aria-hidden="true">Tap to flip ↺</div>
             </div>
             <div class="frame-back">
-              <div class="vintage-tape"></div>
+              <div class="vintage-tape" aria-hidden="true"></div>
               <div class="back-body">
                 <span class="back-script-accent">Note #06</span>
                 <h5>Priceless Soul</h5>
@@ -453,7 +457,7 @@
       </div>
 
       <!-- COMPLETE LOOKBOOK FILMSTRIP: ALL 17 MOMENTS -->
-      <div class="lookbook-section">
+      <div class="lookbook-section" role="region" aria-label="Photo Lookbook Filmstrip">
         <div class="lookbook-header">
           <span class="lookbook-tag">✦ THE FULL REEL • 17 MEMORIES</span>
           <h3>The Lookbook Filmstrip</h3>
@@ -461,24 +465,24 @@
         </div>
 
         <div class="lookbook-strip-wrapper">
-          <div class="lookbook-strip" id="lookbookStrip">
-            <div class="lookbook-item"><img src="pics/1.JPG" alt="Olaitan Memory 1" loading="lazy" data-full="pics/1.JPG" data-caption="Radiant Queen • 01"><span>01</span></div>
-            <div class="lookbook-item"><img src="pics/2.JPG" alt="Olaitan Memory 2" loading="lazy" data-full="pics/2.JPG" data-caption="The Sweetest Laugh • 02"><span>02</span></div>
-            <div class="lookbook-item"><img src="pics/3.JPG" alt="Olaitan Memory 3" loading="lazy" data-full="pics/3.JPG" data-caption="Educator of Minds • 03"><span>03</span></div>
-            <div class="lookbook-item"><img src="pics/4.JPG" alt="Olaitan Memory 4" loading="lazy" data-full="pics/4.JPG" data-caption="Pure Poise & Grace • 04"><span>04</span></div>
-            <div class="lookbook-item"><img src="pics/5.JPG" alt="Olaitan Memory 5" loading="lazy" data-full="pics/5.JPG" data-caption="Chasing Horizons • 05"><span>05</span></div>
-            <div class="lookbook-item"><img src="pics/6.JPG" alt="Olaitan Memory 6" loading="lazy" data-full="pics/6.JPG" data-caption="Softness & Strength • 06"><span>06</span></div>
-            <div class="lookbook-item"><img src="pics/7.JPG" alt="Olaitan Memory 7" loading="lazy" data-full="pics/7.JPG" data-caption="Unwavering Faith • 07"><span>07</span></div>
-            <div class="lookbook-item"><img src="pics/8.JPG" alt="Olaitan Memory 8" loading="lazy" data-full="pics/8.JPG" data-caption="Sunshine Energy • 08"><span>08</span></div>
-            <div class="lookbook-item"><img src="pics/9.JPG" alt="Olaitan Memory 9" loading="lazy" data-full="pics/9.JPG" data-caption="Flawless Elegance • 09"><span>09</span></div>
-            <div class="lookbook-item"><img src="pics/10.JPG" alt="Olaitan Memory 10" loading="lazy" data-full="pics/10.JPG" data-caption="A Heart of Gold • 10"><span>10</span></div>
-            <div class="lookbook-item"><img src="pics/11.JPG" alt="Olaitan Memory 11" loading="lazy" data-full="pics/11.JPG" data-caption="Inspiring Future Generations • 11"><span>11</span></div>
-            <div class="lookbook-item"><img src="pics/12.JPG" alt="Olaitan Memory 12" loading="lazy" data-full="pics/12.JPG" data-caption="Gentle Joy • 12"><span>12</span></div>
-            <div class="lookbook-item"><img src="pics/13.JPG" alt="Olaitan Memory 13" loading="lazy" data-full="pics/13.JPG" data-caption="Every Season Beautiful • 13"><span>13</span></div>
-            <div class="lookbook-item"><img src="pics/14.JPG" alt="Olaitan Memory 14" loading="lazy" data-full="pics/14.JPG" data-caption="Cherished Forever • 14"><span>14</span></div>
-            <div class="lookbook-item"><img src="pics/15.JPG" alt="Olaitan Memory 15" loading="lazy" data-full="pics/15.JPG" data-caption="Blessed & Highly Favored • 15"><span>15</span></div>
-            <div class="lookbook-item"><img src="pics/16.JPG" alt="Olaitan Memory 16" loading="lazy" data-full="pics/16.JPG" data-caption="Peace in Her Presence • 16"><span>16</span></div>
-            <div class="lookbook-item"><img src="pics/17.JPG" alt="Olaitan Memory 17" loading="lazy" data-full="pics/17.JPG" data-caption="A Lifetime of Love • 17"><span>17</span></div>
+          <div class="lookbook-strip" id="lookbookStrip" role="list" aria-label="Gallery photos list">
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 01 in lightbox"><img src="pics/1.JPG" alt="Olaitan Memory 1" loading="lazy" data-full="pics/1.JPG" data-caption="Radiant Queen • 01"><span aria-hidden="true">01</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 02 in lightbox"><img src="pics/2.JPG" alt="Olaitan Memory 2" loading="lazy" data-full="pics/2.JPG" data-caption="The Sweetest Laugh • 02"><span aria-hidden="true">02</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 03 in lightbox"><img src="pics/3.JPG" alt="Olaitan Memory 3" loading="lazy" data-full="pics/3.JPG" data-caption="Educator of Minds • 03"><span aria-hidden="true">03</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 04 in lightbox"><img src="pics/4.JPG" alt="Olaitan Memory 4" loading="lazy" data-full="pics/4.JPG" data-caption="Pure Poise & Grace • 04"><span aria-hidden="true">04</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 05 in lightbox"><img src="pics/5.JPG" alt="Olaitan Memory 5" loading="lazy" data-full="pics/5.JPG" data-caption="Chasing Horizons • 05"><span aria-hidden="true">05</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 06 in lightbox"><img src="pics/6.JPG" alt="Olaitan Memory 6" loading="lazy" data-full="pics/6.JPG" data-caption="Softness & Strength • 06"><span aria-hidden="true">06</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 07 in lightbox"><img src="pics/7.JPG" alt="Olaitan Memory 7" loading="lazy" data-full="pics/7.JPG" data-caption="Unwavering Faith • 07"><span aria-hidden="true">07</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 08 in lightbox"><img src="pics/8.JPG" alt="Olaitan Memory 8" loading="lazy" data-full="pics/8.JPG" data-caption="Sunshine Energy • 08"><span aria-hidden="true">08</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 09 in lightbox"><img src="pics/9.JPG" alt="Olaitan Memory 9" loading="lazy" data-full="pics/9.JPG" data-caption="Flawless Elegance • 09"><span aria-hidden="true">09</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 10 in lightbox"><img src="pics/10.JPG" alt="Olaitan Memory 10" loading="lazy" data-full="pics/10.JPG" data-caption="A Heart of Gold • 10"><span aria-hidden="true">10</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 11 in lightbox"><img src="pics/11.JPG" alt="Olaitan Memory 11" loading="lazy" data-full="pics/11.JPG" data-caption="Inspiring Future Generations • 11"><span aria-hidden="true">11</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 12 in lightbox"><img src="pics/12.JPG" alt="Olaitan Memory 12" loading="lazy" data-full="pics/12.JPG" data-caption="Gentle Joy • 12"><span aria-hidden="true">12</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 13 in lightbox"><img src="pics/13.JPG" alt="Olaitan Memory 13" loading="lazy" data-full="pics/13.JPG" data-caption="Every Season Beautiful • 13"><span aria-hidden="true">13</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 14 in lightbox"><img src="pics/14.JPG" alt="Olaitan Memory 14" loading="lazy" data-full="pics/14.JPG" data-caption="Cherished Forever • 14"><span aria-hidden="true">14</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 15 in lightbox"><img src="pics/15.JPG" alt="Olaitan Memory 15" loading="lazy" data-full="pics/15.JPG" data-caption="Blessed & Highly Favored • 15"><span aria-hidden="true">15</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 16 in lightbox"><img src="pics/16.JPG" alt="Olaitan Memory 16" loading="lazy" data-full="pics/16.JPG" data-caption="Peace in Her Presence • 16"><span aria-hidden="true">16</span></div>
+            <div class="lookbook-item" tabindex="0" role="button" aria-label="Open photo 17 in lightbox"><img src="pics/17.JPG" alt="Olaitan Memory 17" loading="lazy" data-full="pics/17.JPG" data-caption="A Lifetime of Love • 17"><span aria-hidden="true">17</span></div>
           </div>
         </div>
       </div>
@@ -486,20 +490,20 @@
 
 
     <!-- ACT IV: THE CONFIDENTIAL EPISTLE (THE CEREMONIAL ENVELOPE) -->
-    <section class="editorial-act" id="act-letter">
+    <section class="editorial-act" id="act-letter" aria-labelledby="epistle-title">
       <div class="act-header">
         <span class="act-number">III / EPISTLE</span>
-        <h2 class="act-title">A Letter From The Core of My Heart</h2>
+        <h2 class="act-title" id="epistle-title">A Letter From The Core of My Heart</h2>
         <p class="act-subtitle">Sealed with wax. Touch the monogram seal to unroll the parchment.</p>
       </div>
 
       <div class="ceremonial-envelope-box">
         <div class="epistle-envelope" id="epistleEnvelope">
-          <div class="envelope-underlay"></div>
+          <div class="envelope-underlay" aria-hidden="true"></div>
 
           <!-- Unfolding Letter Paper -->
           <article class="parchment-sheet" id="parchmentSheet">
-            <div class="parchment-texture"></div>
+            <div class="parchment-texture" aria-hidden="true"></div>
             <div class="parchment-content">
               <div class="parchment-header">
                 <span class="parchment-salutation">My Dearest Olaitan Ameenat,</span>
@@ -507,9 +511,9 @@
               </div>
 
               <!-- Keepsake Polaroid inside the letter -->
-              <div class="letter-polaroid-keepsake">
-                <img src="pics/10.JPG" alt="Olaitan Ameenat Keepsake" data-full="pics/10.JPG" data-caption="Forever My Favorite Smile • Olaitan">
-                <div class="keepsake-tape"></div>
+              <div class="letter-polaroid-keepsake" tabindex="0" role="button" aria-label="Enlarge keepsake photo inside letter">
+                <img src="pics/10.JPG" alt="Keepsake polaroid of Olaitan smiling" data-full="pics/10.JPG" data-caption="Forever My Favorite Smile • Olaitan">
+                <div class="keepsake-tape" aria-hidden="true"></div>
                 <span class="keepsake-caption">Forever my favorite smile 🌸</span>
               </div>
 
@@ -536,20 +540,20 @@
           </article>
 
           <!-- Envelope Pocket & Flap -->
-          <div class="envelope-pocket-front"></div>
+          <div class="envelope-pocket-front" aria-hidden="true"></div>
           <div class="envelope-crease-flap" id="envelopeFlap">
             <!-- Physical Monogrammed Wax Seal -->
-            <button class="monogram-wax-seal" id="waxSealBtn" aria-label="Crack seal and open letter" title="Break the wax seal">
-              <span class="seal-brass-rim"></span>
+            <button class="monogram-wax-seal" id="waxSealBtn" aria-label="Break golden wax seal and unfold letter" aria-expanded="false" title="Break the wax seal">
+              <span class="seal-brass-rim" aria-hidden="true"></span>
               <span class="seal-core">
                 <span class="seal-letters">OA</span>
               </span>
-              <span class="seal-ambient-ring"></span>
+              <span class="seal-ambient-ring" aria-hidden="true"></span>
             </button>
           </div>
         </div>
 
-        <div class="seal-status-hint" id="sealStatusHint">
+        <div class="seal-status-hint" id="sealStatusHint" aria-live="polite">
           <span>✨ Touch the golden wax seal to unwrap your letter</span>
         </div>
       </div>
@@ -557,40 +561,40 @@
 
 
     <!-- ACT V: THE CONSTELLATION OF WISHES (GUESTBOOK & SHARING) -->
-    <section class="editorial-act" id="act-wishes">
+    <section class="editorial-act" id="act-wishes" aria-labelledby="wishes-title">
       <div class="act-header">
         <span class="act-number">IV / CONSTELLATION</span>
-        <h2 class="act-title">Wishes From Her Beloved Circle</h2>
+        <h2 class="act-title" id="wishes-title">Wishes From Her Beloved Circle</h2>
         <p class="act-subtitle">Messages sent to celebrate Olaitan’s grace. Tap heart to send love.</p>
       </div>
 
       <!-- Feed of Wishes -->
-      <div class="constellation-stream" id="wishesStream">
+      <div class="constellation-stream" id="wishesStream" role="feed" aria-label="Guestbook blessings feed">
         <!-- Rendered via script -->
       </div>
 
       <!-- Guestbook Add Form -->
       <div class="guestbook-panel">
         <div class="panel-header">
-          <span class="panel-icon">✒️</span>
+          <span class="panel-icon" aria-hidden="true">✒️</span>
           <h3>Leave Olaitan Your Blessing</h3>
           <p>Your message will appear instantly on her personal board.</p>
         </div>
 
-        <form id="blessingForm" class="blessing-form">
+        <form id="blessingForm" class="blessing-form" novalidate>
           <div class="input-block">
-            <label for="authorName">Your Name / Relationship</label>
-            <input type="text" id="authorName" placeholder="e.g. Auntie / Dearest Friend" required maxlength="50">
+            <label for="authorName">Your Name / Relationship <span class="required-indicator" aria-hidden="true">*</span></label>
+            <input type="text" id="authorName" placeholder="e.g. Auntie Funke / Dearest Friend" required maxlength="50" autocomplete="name" aria-required="true">
           </div>
 
           <div class="input-block">
-            <label for="authorMessage">Your Birthday Message &amp; Prayer</label>
-            <textarea id="authorMessage" rows="3" placeholder="Write your words of love and blessings..." required maxlength="400"></textarea>
+            <label for="authorMessage">Your Birthday Message &amp; Prayer <span class="required-indicator" aria-hidden="true">*</span></label>
+            <textarea id="authorMessage" rows="3" placeholder="Write your words of love and blessings..." required maxlength="400" aria-required="true"></textarea>
           </div>
 
           <div class="form-btn-group">
             <button type="submit" class="ceremonial-btn full-width">
-              <span class="btn-shimmer"></span>
+              <span class="btn-shimmer" aria-hidden="true"></span>
               <span>Post Blessing On Her Wall 🌸</span>
             </button>
             <button type="button" class="editorial-outline-btn full-width" id="directShareWhatsappBtn">
@@ -599,21 +603,21 @@
           </div>
         </form>
 
-        <div class="form-toast-msg" id="formToastMsg" role="status"></div>
+        <div class="form-toast-msg" id="formToastMsg" role="status" aria-live="polite"></div>
       </div>
     </section>
 
 
     <!-- EPILOGUE: THE FINAL BENEDICTION -->
-    <footer class="editorial-epilogue">
-      <div class="epilogue-portrait-wrap">
-        <img src="pics/17.JPG" alt="Forever Ameenat" class="epilogue-portrait-img" data-full="pics/17.JPG" data-caption="Forever Cherished • Queen Olaitan Ameenat">
+    <footer class="editorial-epilogue" role="contentinfo">
+      <div class="epilogue-portrait-wrap" tabindex="0" role="button" aria-label="Enlarge epilogue photo of Olaitan Ameenat">
+        <img src="pics/17.JPG" alt="Olaitan Ameenat in closing portrait" class="epilogue-portrait-img" data-full="pics/17.JPG" data-caption="Forever Cherished • Queen Olaitan Ameenat">
       </div>
       
-      <div class="epilogue-monogram">OA</div>
+      <div class="epilogue-monogram" aria-hidden="true">OA</div>
       
-      <div class="sig-container miniature" aria-hidden="true">
-        <svg class="editorial-sig-svg" viewBox="0 0 800 170">
+      <div class="sig-container miniature" aria-label="Olaitan Ameenat">
+        <svg class="editorial-sig-svg" viewBox="0 0 800 170" role="img" aria-label="Olaitan Ameenat">
           <text class="sig-path static" x="50%" y="125" text-anchor="middle">Olaitan Ameenat</text>
         </svg>
       </div>
@@ -622,7 +626,7 @@
         May the road rise to meet your gentle steps, and may the wind be forever at your back.
       </p>
 
-      <button class="editorial-outline-btn" id="returnToTopBtn">
+      <button class="editorial-outline-btn" id="returnToTopBtn" aria-label="Scroll back to the top of the monograph">
         <span>Ascend To Beginning ↑</span>
       </button>
 
@@ -635,25 +639,25 @@
   </main>
 
   <!-- WORLD-CLASS DYNAMIC DOCK (MOBILE-FIRST FLOATING CAPSULE) -->
-  <nav class="dynamic-dock" id="dynamicDock" aria-label="Quick Actions">
-    <button class="dock-item" id="dockCandleBtn" title="Shrine & Wish">
-      <span class="dock-glyph">🕯️</span>
+  <nav class="dynamic-dock" id="dynamicDock" aria-label="Quick Actions Navigation">
+    <button class="dock-item" id="dockCandleBtn" title="Shrine & Wish" aria-label="Jump to Candle Shrine & Wish">
+      <span class="dock-glyph" aria-hidden="true">🕯️</span>
       <span class="dock-label">Wish</span>
     </button>
-    <button class="dock-item" id="dockGalleryBtn" title="Photo Gallery">
-      <span class="dock-glyph">📸</span>
+    <button class="dock-item" id="dockGalleryBtn" title="Photo Gallery" aria-label="Jump to Photo Archive">
+      <span class="dock-glyph" aria-hidden="true">📸</span>
       <span class="dock-label">Photos</span>
     </button>
-    <button class="dock-item hero-action" id="dockLoveBurstBtn" title="Cast Love Particle Supernova">
-      <span class="dock-glyph">💖</span>
+    <button class="dock-item hero-action" id="dockLoveBurstBtn" title="Cast Love Particle Supernova" aria-label="Celebrate with a shower of love confetti">
+      <span class="dock-glyph" aria-hidden="true">💖</span>
       <span class="dock-label">Celebrate</span>
     </button>
-    <button class="dock-item" id="dockLetterBtn" title="Read Epistle">
-      <span class="dock-glyph">💌</span>
+    <button class="dock-item" id="dockLetterBtn" title="Read Epistle" aria-label="Jump to Ceremonial Epistle">
+      <span class="dock-glyph" aria-hidden="true">💌</span>
       <span class="dock-label">Letter</span>
     </button>
-    <button class="dock-item" id="dockBlessingBtn" title="Leave Blessing">
-      <span class="dock-glyph">✍️</span>
+    <button class="dock-item" id="dockBlessingBtn" title="Leave Blessing" aria-label="Jump to Leave a Blessing Form">
+      <span class="dock-glyph" aria-hidden="true">✍️</span>
       <span class="dock-label">Bless</span>
     </button>
   </nav>

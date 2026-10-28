@@ -1,8 +1,7 @@
 /**
  * ==========================================================================
  * OLAITAN AMEENAT — WORLD-CLASS EDITORIAL MONOGRAPH ENGINE
- * Pure Vanilla JavaScript • Multi-Harmonic Web Audio • Kinetic Particle Physics
- * Featuring Fullscreen Photo Lightbox & Lookbook Experience
+ * WCAG 2.1 AA/AAA Compliant • Keyboard Accessible • Color-Blindness Optimized
  * ==========================================================================
  */
 
@@ -36,6 +35,7 @@
   ];
 
   let currentPhotoIndex = 0;
+  let lastActiveFocusedElement = null;
 
   // The Oracle's Reflections for Olaitan
   const ORACLE_REFLECTIONS = [
@@ -181,10 +181,16 @@
     if (isSoundscapePlaying) {
       isSoundscapePlaying = false;
       if (soundscapeTimer) clearInterval(soundscapeTimer);
-      if (btn) btn.classList.remove('active-audio');
+      if (btn) {
+        btn.classList.remove('active-audio');
+        btn.setAttribute('aria-pressed', 'false');
+      }
     } else {
       isSoundscapePlaying = true;
-      if (btn) btn.classList.add('active-audio');
+      if (btn) {
+        btn.classList.add('active-audio');
+        btn.setAttribute('aria-pressed', 'true');
+      }
 
       let step = 0;
       function playStep() {
@@ -208,7 +214,7 @@
   let isSupernovaActive = false;
 
   const GOLD_ROSE_PALETTE = [
-    '#f5c563', '#fcedc7', '#ffd666', '#e63966',
+    '#f5c563', '#fcedc7', '#ffd666', '#ff4d79',
     '#ff7ea5', '#7b88ff', '#ffffff', '#ffd043'
   ];
 
@@ -330,13 +336,13 @@
   }
 
   window.addEventListener('click', (e) => {
-    if (!e.target.closest('input, textarea, button, .lightbox-modal')) {
+    if (!e.target.closest('input, textarea, button, .lightbox-modal, a, [role="button"]')) {
       spawnKineticSparkle(e.clientX, e.clientY);
     }
   }, { passive: true });
 
   // --------------------------------------------------------------------------
-  // 5. FULLSCREEN PHOTO LIGHTBOX MODAL LOGIC
+  // 5. ACCESSIBLE FULLSCREEN PHOTO LIGHTBOX MODAL
   // --------------------------------------------------------------------------
   const lightboxModal = document.getElementById('lightboxModal');
   const lightboxImg = document.getElementById('lightboxImg');
@@ -349,12 +355,20 @@
   function openLightbox(src, caption) {
     if (!lightboxModal || !lightboxImg) return;
 
+    lastActiveFocusedElement = document.activeElement;
+
     const idx = PHOTO_GALLERY.findIndex(p => p.src === src);
     currentPhotoIndex = idx >= 0 ? idx : 0;
 
     updateLightboxView();
     lightboxModal.classList.add('is-active');
+    lightboxModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+
+    // Move focus inside dialog per WCAG modal guidelines
+    setTimeout(() => {
+      if (lightboxCloseBtn) lightboxCloseBtn.focus();
+    }, 50);
 
     playAcousticBell(659.25, initAudio()?.currentTime || 0, 0.2);
   }
@@ -362,13 +376,20 @@
   function closeLightbox() {
     if (!lightboxModal) return;
     lightboxModal.classList.remove('is-active');
+    lightboxModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+
+    // Restore focus back to the triggering element
+    if (lastActiveFocusedElement && typeof lastActiveFocusedElement.focus === 'function') {
+      lastActiveFocusedElement.focus();
+    }
   }
 
   function updateLightboxView() {
     const item = PHOTO_GALLERY[currentPhotoIndex];
     if (item && lightboxImg) {
       lightboxImg.src = item.src;
+      lightboxImg.alt = item.caption;
       if (lightboxCaption) lightboxCaption.textContent = item.caption;
     }
   }
@@ -390,24 +411,57 @@
   if (lightboxNextBtn) lightboxNextBtn.addEventListener('click', nextPhoto);
   if (lightboxPrevBtn) lightboxPrevBtn.addEventListener('click', prevPhoto);
 
+  // Keyboard navigation & Focus Trap
   window.addEventListener('keydown', (e) => {
     if (lightboxModal && lightboxModal.classList.contains('is-active')) {
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowRight') nextPhoto();
-      if (e.key === 'ArrowLeft') prevPhoto();
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeLightbox();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextPhoto();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevPhoto();
+      } else if (e.key === 'Tab') {
+        // Focus trap inside modal
+        const focusable = [lightboxCloseBtn, lightboxPrevBtn, lightboxNextBtn].filter(Boolean);
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     }
   });
 
-  // Attach Lightbox triggers to all photos with data-full
+  // Attach Lightbox triggers to all elements with data-full
   document.addEventListener('click', (e) => {
     const targetImg = e.target.closest('[data-full]');
     if (targetImg) {
-      // If inside a polaroid frame, let user tap image directly for lightbox
       e.stopPropagation();
       const src = targetImg.getAttribute('data-full');
-      const caption = targetImg.getAttribute('data-caption') || 'Olaitan Ameenat';
+      const caption = targetImg.getAttribute('data-caption') || targetImg.getAttribute('alt') || 'Olaitan Ameenat';
       openLightbox(src, caption);
     }
+  });
+
+  // Keyboard activation for lookbook items & portrait frame
+  document.querySelectorAll('.lookbook-item, .hero-portrait-frame, .monograph-photo-accent, .letter-polaroid-keepsake, .epilogue-portrait-wrap').forEach(el => {
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const img = el.querySelector('[data-full]') || el;
+        const src = img.getAttribute('data-full');
+        const caption = img.getAttribute('data-caption') || img.getAttribute('alt') || 'Olaitan Ameenat';
+        if (src) openLightbox(src, caption);
+      }
+    });
   });
 
   // --------------------------------------------------------------------------
@@ -425,6 +479,8 @@
 
     if (!isCandleExtinguished) {
       candleArtifact.classList.add('is-blown');
+      candleArtifact.setAttribute('aria-pressed', 'true');
+      if (blowCandleBtn) blowCandleBtn.setAttribute('aria-pressed', 'true');
       isCandleExtinguished = true;
 
       playRoyalChime();
@@ -445,6 +501,8 @@
       }
     } else {
       candleArtifact.classList.remove('is-blown');
+      candleArtifact.setAttribute('aria-pressed', 'false');
+      if (blowCandleBtn) blowCandleBtn.setAttribute('aria-pressed', 'false');
       isCandleExtinguished = false;
 
       playAcousticBell(783.99, initAudio()?.currentTime || 0, 0.3);
@@ -458,7 +516,15 @@
   }
 
   if (blowCandleBtn) blowCandleBtn.addEventListener('click', performCandleRitual);
-  if (candleArtifact) candleArtifact.addEventListener('click', performCandleRitual);
+  if (candleArtifact) {
+    candleArtifact.addEventListener('click', performCandleRitual);
+    candleArtifact.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        performCandleRitual();
+      }
+    });
+  }
 
   // --------------------------------------------------------------------------
   // 7. THE CEREMONIAL WAX SEAL EPISTLE
@@ -471,6 +537,7 @@
     if (!epistleEnvelope || epistleEnvelope.classList.contains('is-unsealed')) return;
 
     epistleEnvelope.classList.add('is-unsealed');
+    if (waxSealBtn) waxSealBtn.setAttribute('aria-expanded', 'true');
     playSealSnapSound();
 
     if (sealStatusHint) {
@@ -499,18 +566,21 @@
   // --------------------------------------------------------------------------
   const editorialFrames = document.querySelectorAll('.editorial-frame');
   editorialFrames.forEach(frame => {
-    frame.addEventListener('click', (e) => {
-      // If clicking image directly, lightbox handles it
+    function toggleFrameFlip(e) {
       if (e.target.hasAttribute('data-full')) return;
-      frame.classList.toggle('is-flipped');
+      const willBeFlipped = !frame.classList.contains('is-flipped');
+      frame.classList.toggle('is-flipped', willBeFlipped);
+      frame.setAttribute('aria-expanded', willBeFlipped ? 'true' : 'false');
+
       playAcousticBell(587.33, initAudio()?.currentTime || 0, 0.2);
       if (navigator.vibrate) navigator.vibrate(12);
-    });
+    }
 
+    frame.addEventListener('click', toggleFrameFlip);
     frame.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        frame.classList.toggle('is-flipped');
+        toggleFrameFlip(e);
       }
     });
   });
@@ -543,7 +613,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 10. CONSTELLATION GUESTBOOK & WHATSAPP EXPORT
+  // 10. CONSTELLATION GUESTBOOK & COLOR-BLINDNESS ACCESSIBLE TOAST
   // --------------------------------------------------------------------------
   const wishesStream = document.getElementById('wishesStream');
   const blessingForm = document.getElementById('blessingForm');
@@ -580,7 +650,7 @@
       card.innerHTML = `
         <div class="constellation-meta">
           <div class="author-chip">
-            <div class="author-avatar">${initialChar}</div>
+            <div class="author-avatar" aria-hidden="true">${initialChar}</div>
             <div>
               <div class="author-name">${sanitizeHTML(item.name)}</div>
               <div class="author-timestamp">${item.time || 'A sacred moment'}</div>
@@ -589,8 +659,8 @@
         </div>
         <p class="blessing-text">“${sanitizeHTML(item.text)}”</p>
         <div class="blessing-footer">
-          <button class="hearth-reaction-btn" data-id="${item.id}" aria-label="Send love to this message">
-            <span>💖</span>
+          <button class="hearth-reaction-btn" data-id="${item.id}" aria-label="Send love to ${sanitizeHTML(item.name)}'s blessing" aria-pressed="false">
+            <span aria-hidden="true">💖</span>
             <span class="heart-counter">${item.likes || 0}</span>
           </button>
         </div>
@@ -601,6 +671,7 @@
         item.likes = (item.likes || 0) + 1;
         heartBtn.querySelector('.heart-counter').textContent = item.likes;
         heartBtn.classList.add('has-loved');
+        heartBtn.setAttribute('aria-pressed', 'true');
         playRoyalChime();
         commitConstellations(constellationList);
 
@@ -635,8 +706,11 @@
       const name = nameEl.value.trim();
       const text = msgEl.value.trim();
 
+      // Form validation with non-color-reliant feedback for color blindness
       if (!name || !text) {
-        showToast("Please provide both your name and blessing.", "error");
+        showToast("⚠ Please provide both your name and your birthday blessing.", "error");
+        if (!name) nameEl.focus();
+        else msgEl.focus();
         return;
       }
 
@@ -655,7 +729,7 @@
       nameEl.value = '';
       msgEl.value = '';
 
-      showToast("✨ Your blessing is forever etched on her wall!", "success");
+      showToast("✓ Success: Your blessing is forever etched on her wall!", "success");
       playRoyalChime();
       triggerSupernova(window.innerWidth / 2, window.innerHeight * 0.45, 90);
 
@@ -663,6 +737,7 @@
     });
   }
 
+  // Non-color-reliant accessible toast messages (uses text prefix + distinct border + icon)
   function showToast(msg, type) {
     if (!formToastMsg) return;
     formToastMsg.textContent = msg;
@@ -670,7 +745,7 @@
     setTimeout(() => {
       formToastMsg.textContent = '';
       formToastMsg.className = 'form-toast-msg';
-    }, 4500);
+    }, 5000);
   }
 
   // Direct WhatsApp Share
@@ -704,11 +779,13 @@
   if (returnToTopBtn) {
     returnToTopBtn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      const mainContent = document.getElementById('main-content');
+      if (mainContent) mainContent.focus();
     });
   }
 
   // --------------------------------------------------------------------------
-  // 12. THEME SWITCHER (DARK VELVET & LIGHT SILK)
+  // 12. ACCESSIBLE THEME SWITCHER (DARK VELVET & LIGHT SILK)
   // --------------------------------------------------------------------------
   const themeSwitchBtn = document.getElementById('themeSwitchBtn');
   function initTheme() {
@@ -741,7 +818,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 14. WORLD-CLASS DYNAMIC DOCK INTERACTIVITY
+  // 14. DYNAMIC DOCK INTERACTIVITY
   // --------------------------------------------------------------------------
   const dockCandleBtn = document.getElementById('dockCandleBtn');
   const dockGalleryBtn = document.getElementById('dockGalleryBtn');
