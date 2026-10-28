@@ -83,7 +83,7 @@
   ];
 
   // --------------------------------------------------------------------------
-  // 2. NIGERIAN LOVE SONG SYNTHESIZER & JUKEBOX ENGINE
+  // 2. NIGERIAN LOVE SONG ENGINE & REAL-TIME SOUND WAVE ANALYSER
   // --------------------------------------------------------------------------
   let audioContext = null;
   let isSerenadePlaying = false;
@@ -91,120 +91,154 @@
   let currentTrackKey = "african_queen";
   const bgmAudio = document.getElementById('bgmAudio');
 
-  // Track Profiles
+  // Real-Time Web Audio API Frequency Analyser for Live Sound Waves
+  let audioSourceNode = null;
+  let analyserNode = null;
+  let frequencyData = null;
+  let visualizerAnimId = null;
+
+  // Track Profiles mapped directly to the music/ folder with Title and Songwriter
   const LOVE_TRACKS = {
     african_queen: {
+      file: "music/2Face - African Queen [Official Video].mp3",
       title: "African Queen",
-      artist: "2Baba (2Face Idibia)",
+      songwriter: "2Face",
+      artist: "2Face",
+      sub: "Songwriter: 2Face • “You are my African Queen...”",
       tempo: 460
     },
     roju: {
+      file: "music/Chike\u0301 - Roju (Official Video).mp3",
       title: "Roju",
-      artist: "Chike",
+      songwriter: "Chiké",
+      artist: "Chiké",
+      sub: "Songwriter: Chiké • “Baby mi roju o, I will love you forever...”",
       tempo: 420
     },
     count_on_you: {
+      file: "music/Johnny Drille - Count On You ( Official Music Video ).mp3",
       title: "Count On You",
+      songwriter: "Johnny Drille",
       artist: "Johnny Drille",
+      sub: "Songwriter: Johnny Drille • “You can count on me...”",
       tempo: 490
     },
+    spaghetti: {
+      file: "music/Rybeena - Spaghetti (Official Video).mp3",
+      title: "Spaghetti",
+      songwriter: "Rybeena",
+      artist: "Rybeena",
+      sub: "Songwriter: Rybeena • “Sweet love like spaghetti...”",
+      tempo: 440
+    },
     custom: {
+      file: "",
       title: "Custom Serenade",
+      songwriter: "Her Favorite Song",
       artist: "Her Favorite Song",
+      sub: "Selected from your device",
       tempo: 500
     }
   };
 
-  // 1. "AFRICAN QUEEN" — 2BABA (Acoustic Guitar & Lead Vocal Melody)
-  // "You are my African Queen, the girl of my dreams... You take me where I've never been..."
+  // Melodic Synthesizer Scores (Seamless Fallback if Media Element is blocked)
   const AFRICAN_QUEEN_SCORE = [
-    // Chorus Lead Melody
-    { f: 329.63, d: 0.35, chord: 164.81 }, // E4 (Em chord root)
-    { f: 392.00, d: 0.35 },                // G4
-    { f: 440.00, d: 0.4 },                 // A4
-    { f: 493.88, d: 0.55 },                // B4
-    { f: 440.00, d: 0.35 },                // A4
-    { f: 392.00, d: 0.35 },                // G4
-    { f: 329.63, d: 0.75, chord: 130.81 }, // E4 ("African Queen" • C chord)
-
-    { f: 329.63, d: 0.35 },                // E4
-    { f: 392.00, d: 0.35 },                // G4
-    { f: 440.00, d: 0.4 },                 // A4
-    { f: 392.00, d: 0.4 },                 // G4
-    { f: 329.63, d: 0.4 },                 // E4
-    { f: 293.66, d: 0.8, chord: 146.83 },  // D4 ("The girl of my dreams" • D chord)
-
-    { f: 293.66, d: 0.35 },                // D4
-    { f: 329.63, d: 0.35 },                // E4
-    { f: 392.00, d: 0.35 },                // G4
-    { f: 440.00, d: 0.4 },                 // A4
-    { f: 493.88, d: 0.55 },                // B4
-    { f: 440.00, d: 0.35 },                // A4
-    { f: 392.00, d: 0.35 },                // G4
-    { f: 329.63, d: 0.75, chord: 196.00 }, // E4 ("Take me where I've never been" • G chord)
-
-    { f: 329.63, d: 0.3 },                 // E4
-    { f: 392.00, d: 0.3 },                 // G4
-    { f: 493.88, d: 0.4 },                 // B4
-    { f: 587.33, d: 0.5 },                 // D5
-    { f: 523.25, d: 0.4 },                 // C5
-    { f: 493.88, d: 0.4 },                 // B4
-    { f: 440.00, d: 0.4 },                 // A4
-    { f: 392.00, d: 0.4 },                 // G4
-    { f: 440.00, d: 0.9, chord: 146.83 },  // A4 ("Make my heart go ding-a-ling" • D chord)
-
-    { f: 392.00, d: 0.4 },                 // G4
-    { f: 440.00, d: 0.4 },                 // A4
-    { f: 493.88, d: 0.6 },                 // B4
-    { f: 440.00, d: 0.4 },                 // A4
-    { f: 392.00, d: 0.4 },                 // G4
-    { f: 329.63, d: 1.1, chord: 164.81 }   // E4 ("Oh you are my African Queen")
+    { f: 329.63, d: 0.35, chord: 164.81 },
+    { f: 392.00, d: 0.35 },
+    { f: 440.00, d: 0.4 },
+    { f: 493.88, d: 0.55 },
+    { f: 440.00, d: 0.35 },
+    { f: 392.00, d: 0.35 },
+    { f: 329.63, d: 0.75, chord: 130.81 },
+    { f: 329.63, d: 0.35 },
+    { f: 392.00, d: 0.35 },
+    { f: 440.00, d: 0.4 },
+    { f: 392.00, d: 0.4 },
+    { f: 329.63, d: 0.4 },
+    { f: 293.66, d: 0.8, chord: 146.83 },
+    { f: 293.66, d: 0.35 },
+    { f: 329.63, d: 0.35 },
+    { f: 392.00, d: 0.35 },
+    { f: 440.00, d: 0.4 },
+    { f: 493.88, d: 0.55 },
+    { f: 440.00, d: 0.35 },
+    { f: 392.00, d: 0.35 },
+    { f: 329.63, d: 0.75, chord: 196.00 },
+    { f: 329.63, d: 0.3 },
+    { f: 392.00, d: 0.3 },
+    { f: 493.88, d: 0.4 },
+    { f: 587.33, d: 0.5 },
+    { f: 523.25, d: 0.4 },
+    { f: 493.88, d: 0.4 },
+    { f: 440.00, d: 0.4 },
+    { f: 392.00, d: 0.4 },
+    { f: 440.00, d: 0.9, chord: 146.83 },
+    { f: 392.00, d: 0.4 },
+    { f: 440.00, d: 0.4 },
+    { f: 493.88, d: 0.6 },
+    { f: 440.00, d: 0.4 },
+    { f: 392.00, d: 0.4 },
+    { f: 329.63, d: 1.1, chord: 164.81 }
   ];
 
-  // 2. "ROJU" — CHIKE
-  // "Baby mi roju o, baby mi roju... I will love you forever and ever..."
   const ROJU_SCORE = [
-    { f: 392.00, d: 0.35, chord: 130.81 }, // G4 (C root)
-    { f: 440.00, d: 0.35 },                // A4
-    { f: 493.88, d: 0.45 },                // B4
-    { f: 587.33, d: 0.5 },                 // D5
-    { f: 523.25, d: 0.4 },                 // C5
-    { f: 493.88, d: 0.75, chord: 174.61 }, // B4 ("Baby mi roju o" • F root)
-
-    { f: 392.00, d: 0.35 },                // G4
-    { f: 440.00, d: 0.35 },                // A4
-    { f: 493.88, d: 0.45 },                // B4
-    { f: 523.25, d: 0.4 },                 // C5
-    { f: 493.88, d: 0.75, chord: 196.00 }, // B4 ("Baby mi roju" • G root)
-
-    { f: 493.88, d: 0.35 },                // B4
-    { f: 523.25, d: 0.35 },                // C5
-    { f: 587.33, d: 0.45 },                // D5
-    { f: 523.25, d: 0.4 },                 // C5
-    { f: 493.88, d: 0.4 },                 // B4
-    { f: 392.00, d: 0.4 },                 // G4
-    { f: 493.88, d: 0.4 },                 // B4
-    { f: 523.25, d: 0.4 },                 // C5
-    { f: 493.88, d: 0.9, chord: 130.81 }   // B4 ("Love you forever and ever")
+    { f: 392.00, d: 0.35, chord: 130.81 },
+    { f: 440.00, d: 0.35 },
+    { f: 493.88, d: 0.45 },
+    { f: 587.33, d: 0.5 },
+    { f: 523.25, d: 0.4 },
+    { f: 493.88, d: 0.75, chord: 174.61 },
+    { f: 392.00, d: 0.35 },
+    { f: 440.00, d: 0.35 },
+    { f: 493.88, d: 0.45 },
+    { f: 523.25, d: 0.4 },
+    { f: 493.88, d: 0.75, chord: 196.00 },
+    { f: 493.88, d: 0.35 },
+    { f: 523.25, d: 0.35 },
+    { f: 587.33, d: 0.45 },
+    { f: 523.25, d: 0.4 },
+    { f: 493.88, d: 0.4 },
+    { f: 392.00, d: 0.4 },
+    { f: 493.88, d: 0.4 },
+    { f: 523.25, d: 0.4 },
+    { f: 493.88, d: 0.9, chord: 130.81 }
   ];
 
-  // 3. "COUNT ON YOU" — JOHNNY DRILLE
   const COUNT_ON_YOU_SCORE = [
     { f: 261.63, d: 0.4, chord: 130.81 },
     { f: 329.63, d: 0.4 },
     { f: 392.00, d: 0.45 },
     { f: 440.00, d: 0.5 },
     { f: 392.00, d: 0.7, chord: 174.61 },
-
     { f: 349.23, d: 0.4 },
     { f: 329.63, d: 0.4 },
     { f: 293.66, d: 0.45 },
     { f: 261.63, d: 0.8, chord: 196.00 },
-
     { f: 329.63, d: 0.4 },
     { f: 392.00, d: 0.45 },
     { f: 523.25, d: 0.6 },
     { f: 493.88, d: 0.8, chord: 130.81 }
+  ];
+
+  const SPAGHETTI_SCORE = [
+    { f: 261.63, d: 0.35, chord: 130.81 },
+    { f: 329.63, d: 0.35 },
+    { f: 392.00, d: 0.45 },
+    { f: 440.00, d: 0.5 },
+    { f: 392.00, d: 0.4 },
+    { f: 329.63, d: 0.7, chord: 174.61 },
+    { f: 329.63, d: 0.35 },
+    { f: 392.00, d: 0.35 },
+    { f: 440.00, d: 0.45 },
+    { f: 523.25, d: 0.5 },
+    { f: 440.00, d: 0.4 },
+    { f: 392.00, d: 0.8, chord: 196.00 },
+    { f: 392.00, d: 0.35 },
+    { f: 440.00, d: 0.35 },
+    { f: 493.88, d: 0.45 },
+    { f: 440.00, d: 0.4 },
+    { f: 392.00, d: 0.4 },
+    { f: 329.63, d: 1.0, chord: 130.81 }
   ];
 
   function getAudioCtx() {
@@ -218,7 +252,64 @@
     return audioContext;
   }
 
-  // Synthesize acoustic tone (warm nylon guitar + acoustic chime harmonics)
+  // Initialize Web Audio API Analyser for real-time sound waves
+  function initAudioAnalyser() {
+    const ctx = getAudioCtx();
+    if (!ctx || analyserNode || !bgmAudio) return;
+    try {
+      analyserNode = ctx.createAnalyser();
+      analyserNode.fftSize = 64; // 32 frequency bins
+      analyserNode.smoothingTimeConstant = 0.8;
+      frequencyData = new Uint8Array(analyserNode.frequencyBinCount);
+
+      if (!audioSourceNode) {
+        audioSourceNode = ctx.createMediaElementSource(bgmAudio);
+        audioSourceNode.connect(analyserNode);
+        analyserNode.connect(ctx.destination);
+      }
+      document.querySelector('.jukebox-player-card')?.classList.add('has-analyser');
+      document.getElementById('soundscapeBtn')?.classList.add('has-analyser');
+    } catch (e) {
+      // Direct playback will still proceed seamlessly
+    }
+  }
+
+  // Live Sound Wave Visualizer Loop
+  function renderSoundWaves() {
+    if (!isSerenadePlaying) {
+      document.querySelectorAll('#soundscapeBtn .audio-waves span').forEach(s => s.style.height = '');
+      document.querySelectorAll('#jukeboxWaveform span').forEach(s => s.style.height = '');
+      if (visualizerAnimId) {
+        cancelAnimationFrame(visualizerAnimId);
+        visualizerAnimId = null;
+      }
+      return;
+    }
+
+    if (analyserNode && frequencyData) {
+      analyserNode.getByteFrequencyData(frequencyData);
+
+      // Top nav sound wave bars (8 bars)
+      const navBars = document.querySelectorAll('#soundscapeBtn .audio-waves span');
+      navBars.forEach((bar, i) => {
+        const val = frequencyData[Math.min(i * 3, frequencyData.length - 1)] || 0;
+        const h = Math.max(3, Math.min(16, 3 + (val / 255) * 13));
+        bar.style.height = `${h}px`;
+      });
+
+      // Jukebox drawer waveform bars (12 bars)
+      const jukeBars = document.querySelectorAll('#jukeboxWaveform span');
+      jukeBars.forEach((bar, i) => {
+        const val = frequencyData[Math.min(i * 2, frequencyData.length - 1)] || 0;
+        const h = Math.max(3, Math.min(22, 3 + (val / 255) * 19));
+        bar.style.height = `${h}px`;
+      });
+    }
+
+    visualizerAnimId = requestAnimationFrame(renderSoundWaves);
+  }
+
+  // Synthesize acoustic tone for melodic chime or synth fallback
   function playAcousticNote(freq, startTime, duration = 0.6, isChordBass = false) {
     const ctx = getAudioCtx();
     if (!ctx) return;
@@ -227,7 +318,6 @@
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
 
-      // Soft triangle for warm guitar-like body, sine for pure clarity
       osc.type = isChordBass ? 'triangle' : 'sine';
       osc.frequency.setValueAtTime(freq, startTime);
 
@@ -266,13 +356,30 @@
   function startSerenade(trackKey = currentTrackKey) {
     currentTrackKey = trackKey;
     const track = LOVE_TRACKS[trackKey] || LOVE_TRACKS.african_queen;
+    const ctx = getAudioCtx();
 
-    // Check if user has a custom MP3 audio loaded
-    if (bgmAudio && bgmAudio.src && !bgmAudio.src.endsWith('undefined') && trackKey === 'custom') {
+    // Check if MP3 file exists in music/ folder or custom upload
+    if (bgmAudio && (track.file || (trackKey === 'custom' && bgmAudio.src))) {
+      if (serenadeTimer) {
+        clearInterval(serenadeTimer);
+        serenadeTimer = null;
+      }
+
+      if (track.file) {
+        const targetSrc = track.file;
+        if (!bgmAudio.src.endsWith(encodeURI(targetSrc)) && !bgmAudio.src.endsWith(targetSrc)) {
+          bgmAudio.src = targetSrc;
+        }
+      }
+
+      initAudioAnalyser();
+
       bgmAudio.play().then(() => {
+        isSerenadePlaying = true;
         setPlaybackUI(true, track);
-      }).catch(() => {
-        // Fallback to synth
+        renderSoundWaves();
+      }).catch(err => {
+        console.warn("Direct MP3 play deferred or blocked, using melodic synth:", err);
         runSynthLoop(trackKey);
       });
       return;
@@ -281,6 +388,7 @@
     runSynthLoop(trackKey);
   }
 
+  // Melodic synth loop fallback
   function runSynthLoop(trackKey) {
     const ctx = getAudioCtx();
     stopSerenade();
@@ -292,20 +400,31 @@
     let score = AFRICAN_QUEEN_SCORE;
     if (trackKey === 'roju') score = ROJU_SCORE;
     else if (trackKey === 'count_on_you') score = COUNT_ON_YOU_SCORE;
+    else if (trackKey === 'spaghetti') score = SPAGHETTI_SCORE;
 
     let step = 0;
     function tick() {
       if (!isSerenadePlaying) return;
       const note = score[step];
 
-      // Play lead melody note
       playAcousticNote(note.f, ctx.currentTime, note.d * 1.3);
 
-      // Play bass acoustic chord backing if defined
       if (note.chord) {
         playAcousticNote(note.chord, ctx.currentTime, note.d * 2.2, true);
         playAcousticNote(note.chord * 1.5, ctx.currentTime + 0.03, note.d * 1.8);
       }
+
+      // Procedural sound wave pulse during synth mode
+      const navBars = document.querySelectorAll('#soundscapeBtn .audio-waves span');
+      navBars.forEach((bar, i) => {
+        const h = Math.max(3, Math.min(16, 3 + Math.abs(Math.sin((step + i) * 0.8)) * 13));
+        bar.style.height = `${h}px`;
+      });
+      const jukeBars = document.querySelectorAll('#jukeboxWaveform span');
+      jukeBars.forEach((bar, i) => {
+        const h = Math.max(3, Math.min(22, 3 + Math.abs(Math.sin((step + i * 0.7) * 0.9)) * 19));
+        bar.style.height = `${h}px`;
+      });
 
       step = (step + 1) % score.length;
     }
@@ -316,9 +435,20 @@
 
   function stopSerenade() {
     isSerenadePlaying = false;
-    if (serenadeTimer) clearInterval(serenadeTimer);
+    if (serenadeTimer) {
+      clearInterval(serenadeTimer);
+      serenadeTimer = null;
+    }
     if (bgmAudio) bgmAudio.pause();
+    if (visualizerAnimId) {
+      cancelAnimationFrame(visualizerAnimId);
+      visualizerAnimId = null;
+    }
     setPlaybackUI(false, LOVE_TRACKS[currentTrackKey]);
+    document.querySelector('.jukebox-player-card')?.classList.remove('has-analyser');
+    document.getElementById('soundscapeBtn')?.classList.remove('has-analyser');
+    document.querySelectorAll('#soundscapeBtn .audio-waves span').forEach(s => s.style.height = '');
+    document.querySelectorAll('#jukeboxWaveform span').forEach(s => s.style.height = '');
   }
 
   function toggleSerenade() {
@@ -329,7 +459,7 @@
     }
   }
 
-  // Synchronize UI Elements
+  // Synchronize UI Elements with Title and Songwriter
   function setPlaybackUI(isPlaying, track) {
     const navBtn = document.getElementById('soundscapeBtn');
     const songCaption = document.getElementById('songTitleCaption');
@@ -339,13 +469,22 @@
     const jukeboxArtist = document.getElementById('jukeboxArtist');
     const jukeboxPlayText = document.getElementById('jukeboxPlayBtnText');
 
-    if (songCaption && track) songCaption.textContent = track.title;
-    if (jukeboxTitle && track) jukeboxTitle.textContent = track.title;
-    if (jukeboxArtist && track) jukeboxArtist.textContent = track.artist;
+    if (songCaption && track) {
+      songCaption.textContent = `${track.title} • ${track.songwriter || track.artist}`;
+    }
+    if (jukeboxTitle && track) {
+      jukeboxTitle.textContent = track.title;
+    }
+    if (jukeboxArtist && track) {
+      jukeboxArtist.textContent = `Songwriter: ${track.songwriter || track.artist}`;
+    }
 
     if (navBtn) {
       navBtn.classList.toggle('active-audio', isPlaying);
       navBtn.setAttribute('aria-pressed', isPlaying ? 'true' : 'false');
+      if (track) {
+        navBtn.setAttribute('aria-label', `Play Nigerian Love Song: ${track.title} (Songwriter: ${track.songwriter || track.artist})`);
+      }
     }
     if (vinylDisc) vinylDisc.classList.toggle('is-spinning', isPlaying);
     if (jukeboxPlayerCard) jukeboxPlayerCard.classList.toggle('is-playing', isPlaying);
@@ -353,6 +492,30 @@
     if (jukeboxPlayText) {
       jukeboxPlayText.textContent = isPlaying ? "Pause Serenade ⏸" : "Play Serenade 🎶";
     }
+  }
+
+  // Audio Event Listeners: Track End & Error Recovery
+  if (bgmAudio) {
+    bgmAudio.addEventListener('ended', () => {
+      // Auto-advance sequentially to next track
+      const trackKeys = ['african_queen', 'roju', 'count_on_you', 'spaghetti'];
+      const nextIdx = (trackKeys.indexOf(currentTrackKey) + 1) % trackKeys.length;
+      const nextKey = trackKeys[nextIdx];
+
+      document.querySelectorAll('.playlist-track').forEach(b => {
+        const isTarget = b.getAttribute('data-track') === nextKey;
+        b.classList.toggle('is-active', isTarget);
+        b.setAttribute('aria-checked', isTarget ? 'true' : 'false');
+      });
+
+      startSerenade(nextKey);
+    });
+
+    bgmAudio.addEventListener('error', () => {
+      if (isSerenadePlaying) {
+        runSynthLoop(currentTrackKey);
+      }
+    });
   }
 
   // --------------------------------------------------------------------------
@@ -416,6 +579,7 @@
 
         const cleanName = file.name.replace(/\.[^/.]+$/, "");
         LOVE_TRACKS.custom.title = cleanName;
+        LOVE_TRACKS.custom.songwriter = "Custom";
 
         document.querySelectorAll('.playlist-track').forEach(b => {
           b.classList.remove('is-active');

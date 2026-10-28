@@ -34,8 +34,8 @@
   <!-- Tap Sparkle Particle Layer (Decorational) -->
   <div id="touchRippleLayer" class="touch-ripple-layer" aria-hidden="true"></div>
 
-  <!-- Background Audio Element for optional direct MP3 playback -->
-  <audio id="bgmAudio" src="song.mp3" preload="auto"></audio>
+  <!-- Background Audio Element for Nigerian Love Songs from music/ folder -->
+  <audio id="bgmAudio" preload="auto" crossorigin="anonymous"></audio>
   <input type="file" id="customAudioInput" accept="audio/*" class="visually-hidden" aria-label="Upload custom love song audio file">
 
   <!-- Fullscreen Photo Lightbox Modal with Full ARIA Accessibility -->
@@ -78,10 +78,10 @@
         <div class="player-info">
           <span class="player-now-label">NOW SERENADING</span>
           <h4 class="player-track-name" id="jukeboxTrackTitle">African Queen</h4>
-          <span class="player-artist" id="jukeboxArtist">2Baba (2Face Idibia)</span>
+          <span class="player-artist" id="jukeboxArtist">Songwriter: 2Face</span>
 
-          <!-- Animated Dynamic Frequency Sound Wave -->
-          <div class="jukebox-waveform" id="jukeboxWaveform" aria-hidden="true">
+          <!-- Animated Dynamic Frequency Sound Wave (Real-Time Audio Reactive) -->
+          <div class="jukebox-waveform" id="jukeboxWaveform" aria-label="Audio frequency sound wave" aria-hidden="true">
             <span></span><span></span><span></span><span></span>
             <span></span><span></span><span></span><span></span>
             <span></span><span></span><span></span><span></span>
@@ -89,13 +89,13 @@
         </div>
       </div>
 
-      <!-- Playlist Selection -->
+      <!-- Playlist Selection (Tracks from music/ folder) -->
       <div class="jukebox-playlist" role="radiogroup" aria-label="Select Nigerian Love Song">
         <button class="playlist-track is-active" data-track="african_queen" role="radio" aria-checked="true">
           <span class="track-number">01</span>
           <div class="track-details">
             <span class="track-name">African Queen</span>
-            <span class="track-sub">2Baba • The Ultimate Classic Love Anthem</span>
+            <span class="track-sub">Songwriter: 2Face • “You are my African Queen...”</span>
           </div>
           <span class="track-play-icon">▶</span>
         </button>
@@ -104,7 +104,7 @@
           <span class="track-number">02</span>
           <div class="track-details">
             <span class="track-name">Roju</span>
-            <span class="track-sub">Chike • “Baby mi roju o, I will love you forever...”</span>
+            <span class="track-sub">Songwriter: Chiké • “Baby mi roju o, I will love you forever...”</span>
           </div>
           <span class="track-play-icon">▶</span>
         </button>
@@ -113,7 +113,16 @@
           <span class="track-number">03</span>
           <div class="track-details">
             <span class="track-name">Count On You</span>
-            <span class="track-sub">Johnny Drille • Soulful Acoustic Love Ballad</span>
+            <span class="track-sub">Songwriter: Johnny Drille • “You can count on me...”</span>
+          </div>
+          <span class="track-play-icon">▶</span>
+        </button>
+
+        <button class="playlist-track" data-track="spaghetti" role="radio" aria-checked="false">
+          <span class="track-number">04</span>
+          <div class="track-details">
+            <span class="track-name">Spaghetti</span>
+            <span class="track-sub">Songwriter: Rybeena • “Sweet love like spaghetti...”</span>
           </div>
           <span class="track-play-icon">▶</span>
         </button>
@@ -122,7 +131,7 @@
           <span class="track-number">📂</span>
           <div class="track-details">
             <span class="track-name">Play Any Song (Upload MP3)</span>
-            <span class="track-sub">Select her favorite love song from your device</span>
+            <span class="track-sub">Select custom love song from your device</span>
           </div>
           <span class="track-play-icon">＋</span>
         </button>
@@ -149,13 +158,13 @@
 
       <div class="nav-actions">
         <!-- NIGERIAN LOVE SONG SOUND WAVE CAPSULE -->
-        <button id="soundscapeBtn" class="pill-nav-btn love-song-nav-btn" aria-label="Play Nigerian Love Song: African Queen" aria-pressed="false" title="Nigerian Love Song Serenade">
+        <button id="soundscapeBtn" class="pill-nav-btn love-song-nav-btn" aria-label="Play Nigerian Love Song: African Queen (Songwriter: 2Face)" aria-pressed="false" title="Nigerian Love Song Serenade">
           <span class="audio-glyph" aria-hidden="true">🎶</span>
           <span class="audio-waves" aria-hidden="true">
             <span></span><span></span><span></span><span></span>
             <span></span><span></span><span></span><span></span>
           </span>
-          <span class="btn-caption" id="songTitleCaption">African Queen</span>
+          <span class="btn-caption" id="songTitleCaption">African Queen • 2Face</span>
         </button>
 
         <!-- Aesthetic Theme Switcher -->
