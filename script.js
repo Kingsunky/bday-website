@@ -1,7 +1,7 @@
 /**
  * ==========================================================================
  * OLAITAN AMEENAT — WORLD-CLASS EDITORIAL MONOGRAPH ENGINE
- * WCAG 2.1 AA/AAA Compliant • Keyboard Accessible • Color-Blindness Optimized
+ * Featuring Nigerian Love Song Soundscape Engine & Real-Time Waveform Visualizer
  * ==========================================================================
  */
 
@@ -9,11 +9,11 @@
   'use strict';
 
   // --------------------------------------------------------------------------
-  // 1. STATE & APHORISMS
+  // 1. STATE & CONSTANTS
   // --------------------------------------------------------------------------
   const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Curated list of all 17 photos for Lightbox
+  // Photo gallery registry
   const PHOTO_GALLERY = [
     { src: "pics/1.JPG", caption: "Queen Olaitan Ameenat • The Birthday Star" },
     { src: "pics/2.JPG", caption: "The Incomparable Smile • Chapter I" },
@@ -83,13 +83,131 @@
   ];
 
   // --------------------------------------------------------------------------
-  // 2. MULTI-HARMONIC WEB AUDIO SYNTHESIZER (CELESTA & ACOUSTIC BELLS)
+  // 2. NIGERIAN LOVE SONG SYNTHESIZER & JUKEBOX ENGINE
   // --------------------------------------------------------------------------
   let audioContext = null;
-  let isSoundscapePlaying = false;
-  let soundscapeTimer = null;
+  let isSerenadePlaying = false;
+  let serenadeTimer = null;
+  let currentTrackKey = "african_queen";
+  const bgmAudio = document.getElementById('bgmAudio');
 
-  function initAudio() {
+  // Track Profiles
+  const LOVE_TRACKS = {
+    african_queen: {
+      title: "African Queen",
+      artist: "2Baba (2Face Idibia)",
+      tempo: 460
+    },
+    roju: {
+      title: "Roju",
+      artist: "Chike",
+      tempo: 420
+    },
+    count_on_you: {
+      title: "Count On You",
+      artist: "Johnny Drille",
+      tempo: 490
+    },
+    custom: {
+      title: "Custom Serenade",
+      artist: "Her Favorite Song",
+      tempo: 500
+    }
+  };
+
+  // 1. "AFRICAN QUEEN" — 2BABA (Acoustic Guitar & Lead Vocal Melody)
+  // "You are my African Queen, the girl of my dreams... You take me where I've never been..."
+  const AFRICAN_QUEEN_SCORE = [
+    // Chorus Lead Melody
+    { f: 329.63, d: 0.35, chord: 164.81 }, // E4 (Em chord root)
+    { f: 392.00, d: 0.35 },                // G4
+    { f: 440.00, d: 0.4 },                 // A4
+    { f: 493.88, d: 0.55 },                // B4
+    { f: 440.00, d: 0.35 },                // A4
+    { f: 392.00, d: 0.35 },                // G4
+    { f: 329.63, d: 0.75, chord: 130.81 }, // E4 ("African Queen" • C chord)
+
+    { f: 329.63, d: 0.35 },                // E4
+    { f: 392.00, d: 0.35 },                // G4
+    { f: 440.00, d: 0.4 },                 // A4
+    { f: 392.00, d: 0.4 },                 // G4
+    { f: 329.63, d: 0.4 },                 // E4
+    { f: 293.66, d: 0.8, chord: 146.83 },  // D4 ("The girl of my dreams" • D chord)
+
+    { f: 293.66, d: 0.35 },                // D4
+    { f: 329.63, d: 0.35 },                // E4
+    { f: 392.00, d: 0.35 },                // G4
+    { f: 440.00, d: 0.4 },                 // A4
+    { f: 493.88, d: 0.55 },                // B4
+    { f: 440.00, d: 0.35 },                // A4
+    { f: 392.00, d: 0.35 },                // G4
+    { f: 329.63, d: 0.75, chord: 196.00 }, // E4 ("Take me where I've never been" • G chord)
+
+    { f: 329.63, d: 0.3 },                 // E4
+    { f: 392.00, d: 0.3 },                 // G4
+    { f: 493.88, d: 0.4 },                 // B4
+    { f: 587.33, d: 0.5 },                 // D5
+    { f: 523.25, d: 0.4 },                 // C5
+    { f: 493.88, d: 0.4 },                 // B4
+    { f: 440.00, d: 0.4 },                 // A4
+    { f: 392.00, d: 0.4 },                 // G4
+    { f: 440.00, d: 0.9, chord: 146.83 },  // A4 ("Make my heart go ding-a-ling" • D chord)
+
+    { f: 392.00, d: 0.4 },                 // G4
+    { f: 440.00, d: 0.4 },                 // A4
+    { f: 493.88, d: 0.6 },                 // B4
+    { f: 440.00, d: 0.4 },                 // A4
+    { f: 392.00, d: 0.4 },                 // G4
+    { f: 329.63, d: 1.1, chord: 164.81 }   // E4 ("Oh you are my African Queen")
+  ];
+
+  // 2. "ROJU" — CHIKE
+  // "Baby mi roju o, baby mi roju... I will love you forever and ever..."
+  const ROJU_SCORE = [
+    { f: 392.00, d: 0.35, chord: 130.81 }, // G4 (C root)
+    { f: 440.00, d: 0.35 },                // A4
+    { f: 493.88, d: 0.45 },                // B4
+    { f: 587.33, d: 0.5 },                 // D5
+    { f: 523.25, d: 0.4 },                 // C5
+    { f: 493.88, d: 0.75, chord: 174.61 }, // B4 ("Baby mi roju o" • F root)
+
+    { f: 392.00, d: 0.35 },                // G4
+    { f: 440.00, d: 0.35 },                // A4
+    { f: 493.88, d: 0.45 },                // B4
+    { f: 523.25, d: 0.4 },                 // C5
+    { f: 493.88, d: 0.75, chord: 196.00 }, // B4 ("Baby mi roju" • G root)
+
+    { f: 493.88, d: 0.35 },                // B4
+    { f: 523.25, d: 0.35 },                // C5
+    { f: 587.33, d: 0.45 },                // D5
+    { f: 523.25, d: 0.4 },                 // C5
+    { f: 493.88, d: 0.4 },                 // B4
+    { f: 392.00, d: 0.4 },                 // G4
+    { f: 493.88, d: 0.4 },                 // B4
+    { f: 523.25, d: 0.4 },                 // C5
+    { f: 493.88, d: 0.9, chord: 130.81 }   // B4 ("Love you forever and ever")
+  ];
+
+  // 3. "COUNT ON YOU" — JOHNNY DRILLE
+  const COUNT_ON_YOU_SCORE = [
+    { f: 261.63, d: 0.4, chord: 130.81 },
+    { f: 329.63, d: 0.4 },
+    { f: 392.00, d: 0.45 },
+    { f: 440.00, d: 0.5 },
+    { f: 392.00, d: 0.7, chord: 174.61 },
+
+    { f: 349.23, d: 0.4 },
+    { f: 329.63, d: 0.4 },
+    { f: 293.66, d: 0.45 },
+    { f: 261.63, d: 0.8, chord: 196.00 },
+
+    { f: 329.63, d: 0.4 },
+    { f: 392.00, d: 0.45 },
+    { f: 523.25, d: 0.6 },
+    { f: 493.88, d: 0.8, chord: 130.81 }
+  ];
+
+  function getAudioCtx() {
     if (!audioContext) {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       if (AudioCtx) audioContext = new AudioCtx();
@@ -100,113 +218,231 @@
     return audioContext;
   }
 
-  function playAcousticBell(fundamentalFreq, startTime, duration = 0.8) {
-    const ctx = initAudio();
+  // Synthesize acoustic tone (warm nylon guitar + acoustic chime harmonics)
+  function playAcousticNote(freq, startTime, duration = 0.6, isChordBass = false) {
+    const ctx = getAudioCtx();
     if (!ctx) return;
 
     try {
-      const harmonics = [
-        { mult: 1.0, gain: 0.25 },
-        { mult: 2.0, gain: 0.12 },
-        { mult: 3.01, gain: 0.05 },
-        { mult: 4.16, gain: 0.02 }
-      ];
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
 
-      harmonics.forEach(h => {
-        const osc = ctx.createOscillator();
-        const gainNode = ctx.createGain();
+      // Soft triangle for warm guitar-like body, sine for pure clarity
+      osc.type = isChordBass ? 'triangle' : 'sine';
+      osc.frequency.setValueAtTime(freq, startTime);
 
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(fundamentalFreq * h.mult, startTime);
+      const peakGain = isChordBass ? 0.18 : 0.22;
+      gain.gain.setValueAtTime(0.0001, startTime);
+      gain.gain.exponentialRampToValueAtTime(peakGain, startTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
 
-        gainNode.gain.setValueAtTime(0.0001, startTime);
-        gainNode.gain.exponentialRampToValueAtTime(h.gain, startTime + 0.015);
-        gainNode.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
 
-        osc.connect(gainNode);
-        gainNode.connect(ctx.destination);
-
-        osc.start(startTime);
-        osc.stop(startTime + duration);
-      });
-    } catch (err) {}
+      osc.start(startTime);
+      osc.stop(startTime + duration);
+    } catch (e) {}
   }
 
   function playRoyalChime() {
-    const ctx = initAudio();
+    const ctx = getAudioCtx();
     if (!ctx) return;
     const now = ctx.currentTime;
     const chords = [523.25, 659.25, 783.99, 987.77, 1046.50, 1318.51];
     chords.forEach((freq, idx) => {
-      playAcousticBell(freq, now + idx * 0.09, 1.2);
+      playAcousticNote(freq, now + idx * 0.09, 1.2);
     });
   }
 
   function playSealSnapSound() {
-    const ctx = initAudio();
+    const ctx = getAudioCtx();
     if (!ctx) return;
     const now = ctx.currentTime;
-    playAcousticBell(440, now, 0.4);
-    playAcousticBell(880, now + 0.05, 0.5);
+    playAcousticNote(440, now, 0.4);
+    playAcousticNote(880, now + 0.05, 0.5);
   }
 
-  const SOUNDSCAPE_NOTES = [
-    { f: 392.00, d: 0.4 },
-    { f: 392.00, d: 0.25 },
-    { f: 440.00, d: 0.5 },
-    { f: 392.00, d: 0.5 },
-    { f: 523.25, d: 0.55 },
-    { f: 493.88, d: 0.8 },
+  // Start Playing Nigerian Love Serenade
+  function startSerenade(trackKey = currentTrackKey) {
+    currentTrackKey = trackKey;
+    const track = LOVE_TRACKS[trackKey] || LOVE_TRACKS.african_queen;
 
-    { f: 392.00, d: 0.4 },
-    { f: 392.00, d: 0.25 },
-    { f: 440.00, d: 0.5 },
-    { f: 392.00, d: 0.5 },
-    { f: 587.33, d: 0.55 },
-    { f: 523.25, d: 0.8 },
+    // Check if user has a custom MP3 audio loaded
+    if (bgmAudio && bgmAudio.src && !bgmAudio.src.endsWith('undefined') && trackKey === 'custom') {
+      bgmAudio.play().then(() => {
+        setPlaybackUI(true, track);
+      }).catch(() => {
+        // Fallback to synth
+        runSynthLoop(trackKey);
+      });
+      return;
+    }
 
-    { f: 392.00, d: 0.4 },
-    { f: 392.00, d: 0.25 },
-    { f: 783.99, d: 0.55 },
-    { f: 659.25, d: 0.55 },
-    { f: 523.25, d: 0.55 },
-    { f: 493.88, d: 0.55 },
-    { f: 440.00, d: 0.8 }
-  ];
+    runSynthLoop(trackKey);
+  }
 
-  function toggleSoundscape() {
-    const btn = document.getElementById('soundscapeBtn');
-    const ctx = initAudio();
+  function runSynthLoop(trackKey) {
+    const ctx = getAudioCtx();
+    stopSerenade();
 
-    if (isSoundscapePlaying) {
-      isSoundscapePlaying = false;
-      if (soundscapeTimer) clearInterval(soundscapeTimer);
-      if (btn) {
-        btn.classList.remove('active-audio');
-        btn.setAttribute('aria-pressed', 'false');
+    isSerenadePlaying = true;
+    const track = LOVE_TRACKS[trackKey] || LOVE_TRACKS.african_queen;
+    setPlaybackUI(true, track);
+
+    let score = AFRICAN_QUEEN_SCORE;
+    if (trackKey === 'roju') score = ROJU_SCORE;
+    else if (trackKey === 'count_on_you') score = COUNT_ON_YOU_SCORE;
+
+    let step = 0;
+    function tick() {
+      if (!isSerenadePlaying) return;
+      const note = score[step];
+
+      // Play lead melody note
+      playAcousticNote(note.f, ctx.currentTime, note.d * 1.3);
+
+      // Play bass acoustic chord backing if defined
+      if (note.chord) {
+        playAcousticNote(note.chord, ctx.currentTime, note.d * 2.2, true);
+        playAcousticNote(note.chord * 1.5, ctx.currentTime + 0.03, note.d * 1.8);
       }
+
+      step = (step + 1) % score.length;
+    }
+
+    tick();
+    serenadeTimer = setInterval(tick, track.tempo);
+  }
+
+  function stopSerenade() {
+    isSerenadePlaying = false;
+    if (serenadeTimer) clearInterval(serenadeTimer);
+    if (bgmAudio) bgmAudio.pause();
+    setPlaybackUI(false, LOVE_TRACKS[currentTrackKey]);
+  }
+
+  function toggleSerenade() {
+    if (isSerenadePlaying) {
+      stopSerenade();
     } else {
-      isSoundscapePlaying = true;
-      if (btn) {
-        btn.classList.add('active-audio');
-        btn.setAttribute('aria-pressed', 'true');
-      }
+      startSerenade(currentTrackKey);
+    }
+  }
 
-      let step = 0;
-      function playStep() {
-        if (!isSoundscapePlaying) return;
-        const item = SOUNDSCAPE_NOTES[step];
-        playAcousticBell(item.f, ctx.currentTime, item.d * 1.5);
-        step = (step + 1) % SOUNDSCAPE_NOTES.length;
-      }
+  // Synchronize UI Elements
+  function setPlaybackUI(isPlaying, track) {
+    const navBtn = document.getElementById('soundscapeBtn');
+    const songCaption = document.getElementById('songTitleCaption');
+    const vinylDisc = document.getElementById('vinylDisc');
+    const jukeboxPlayerCard = document.querySelector('.jukebox-player-card');
+    const jukeboxTitle = document.getElementById('jukeboxTrackTitle');
+    const jukeboxArtist = document.getElementById('jukeboxArtist');
+    const jukeboxPlayText = document.getElementById('jukeboxPlayBtnText');
 
-      playStep();
-      soundscapeTimer = setInterval(playStep, 520);
+    if (songCaption && track) songCaption.textContent = track.title;
+    if (jukeboxTitle && track) jukeboxTitle.textContent = track.title;
+    if (jukeboxArtist && track) jukeboxArtist.textContent = track.artist;
+
+    if (navBtn) {
+      navBtn.classList.toggle('active-audio', isPlaying);
+      navBtn.setAttribute('aria-pressed', isPlaying ? 'true' : 'false');
+    }
+    if (vinylDisc) vinylDisc.classList.toggle('is-spinning', isPlaying);
+    if (jukeboxPlayerCard) jukeboxPlayerCard.classList.toggle('is-playing', isPlaying);
+
+    if (jukeboxPlayText) {
+      jukeboxPlayText.textContent = isPlaying ? "Pause Serenade ⏸" : "Play Serenade 🎶";
     }
   }
 
   // --------------------------------------------------------------------------
-  // 3. SUPERNOVA PARTICLE PHYSICS ENGINE
+  // 3. JUKEBOX MODAL DRAWER CONTROLS
+  // --------------------------------------------------------------------------
+  const jukeboxModal = document.getElementById('jukeboxModal');
+  const jukeboxCloseBtn = document.getElementById('jukeboxCloseBtn');
+  const jukeboxBackdrop = document.getElementById('jukeboxBackdrop');
+  const jukeboxMainPlayBtn = document.getElementById('jukeboxMainPlayBtn');
+  const customAudioInput = document.getElementById('customAudioInput');
+  const uploadCustomTrackBtn = document.getElementById('uploadCustomTrackBtn');
+
+  function openJukebox() {
+    if (!jukeboxModal) return;
+    jukeboxModal.classList.add('is-active');
+    jukeboxModal.setAttribute('aria-hidden', 'false');
+    playAcousticNote(659.25, getAudioCtx()?.currentTime || 0, 0.2);
+  }
+
+  function closeJukebox() {
+    if (!jukeboxModal) return;
+    jukeboxModal.classList.remove('is-active');
+    jukeboxModal.setAttribute('aria-hidden', 'true');
+  }
+
+  if (jukeboxCloseBtn) jukeboxCloseBtn.addEventListener('click', closeJukebox);
+  if (jukeboxBackdrop) jukeboxBackdrop.addEventListener('click', closeJukebox);
+
+  if (jukeboxMainPlayBtn) {
+    jukeboxMainPlayBtn.addEventListener('click', () => {
+      toggleSerenade();
+    });
+  }
+
+  // Playlist track item selection
+  document.querySelectorAll('.playlist-track[data-track]').forEach(trackBtn => {
+    trackBtn.addEventListener('click', () => {
+      const key = trackBtn.getAttribute('data-track');
+      document.querySelectorAll('.playlist-track').forEach(b => {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-checked', 'false');
+      });
+      trackBtn.classList.add('is-active');
+      trackBtn.setAttribute('aria-checked', 'true');
+
+      startSerenade(key);
+    });
+  });
+
+  // Custom MP3 Upload Support
+  if (uploadCustomTrackBtn && customAudioInput) {
+    uploadCustomTrackBtn.addEventListener('click', () => {
+      customAudioInput.click();
+    });
+
+    customAudioInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && bgmAudio) {
+        const fileURL = URL.createObjectURL(file);
+        bgmAudio.src = fileURL;
+
+        const cleanName = file.name.replace(/\.[^/.]+$/, "");
+        LOVE_TRACKS.custom.title = cleanName;
+
+        document.querySelectorAll('.playlist-track').forEach(b => {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-checked', 'false');
+        });
+        uploadCustomTrackBtn.classList.add('is-active');
+        uploadCustomTrackBtn.setAttribute('aria-checked', 'true');
+
+        startSerenade('custom');
+      }
+    });
+  }
+
+  // Nav Sound Wave Button Toggle
+  const soundscapeBtn = document.getElementById('soundscapeBtn');
+  if (soundscapeBtn) {
+    soundscapeBtn.addEventListener('click', () => {
+      if (!isSerenadePlaying) {
+        startSerenade(currentTrackKey);
+      } else {
+        openJukebox();
+      }
+    });
+  }
+
+  // --------------------------------------------------------------------------
+  // 4. SUPERNOVA PARTICLE PHYSICS ENGINE
   // --------------------------------------------------------------------------
   const canvas = document.getElementById('particleCanvas');
   const ctx = canvas ? canvas.getContext('2d') : null;
@@ -307,7 +543,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 4. TOUCH-RESPONSIVE SPARKLE PARTICLES
+  // 5. TOUCH-RESPONSIVE SPARKLE PARTICLES
   // --------------------------------------------------------------------------
   const touchLayer = document.getElementById('touchRippleLayer');
   const TOUCH_GLYPHS = ['✨', '🌸', '👑', '💖', '🕊️', '⭐'];
@@ -336,13 +572,13 @@
   }
 
   window.addEventListener('click', (e) => {
-    if (!e.target.closest('input, textarea, button, .lightbox-modal, a, [role="button"]')) {
+    if (!e.target.closest('input, textarea, button, .lightbox-modal, .jukebox-modal, a, [role="button"]')) {
       spawnKineticSparkle(e.clientX, e.clientY);
     }
   }, { passive: true });
 
   // --------------------------------------------------------------------------
-  // 5. ACCESSIBLE FULLSCREEN PHOTO LIGHTBOX MODAL
+  // 6. ACCESSIBLE FULLSCREEN PHOTO LIGHTBOX MODAL
   // --------------------------------------------------------------------------
   const lightboxModal = document.getElementById('lightboxModal');
   const lightboxImg = document.getElementById('lightboxImg');
@@ -365,12 +601,11 @@
     lightboxModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
 
-    // Move focus inside dialog per WCAG modal guidelines
     setTimeout(() => {
       if (lightboxCloseBtn) lightboxCloseBtn.focus();
     }, 50);
 
-    playAcousticBell(659.25, initAudio()?.currentTime || 0, 0.2);
+    playAcousticNote(659.25, getAudioCtx()?.currentTime || 0, 0.2);
   }
 
   function closeLightbox() {
@@ -379,7 +614,6 @@
     lightboxModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
 
-    // Restore focus back to the triggering element
     if (lastActiveFocusedElement && typeof lastActiveFocusedElement.focus === 'function') {
       lastActiveFocusedElement.focus();
     }
@@ -397,13 +631,13 @@
   function nextPhoto() {
     currentPhotoIndex = (currentPhotoIndex + 1) % PHOTO_GALLERY.length;
     updateLightboxView();
-    playAcousticBell(783.99, initAudio()?.currentTime || 0, 0.15);
+    playAcousticNote(783.99, getAudioCtx()?.currentTime || 0, 0.15);
   }
 
   function prevPhoto() {
     currentPhotoIndex = (currentPhotoIndex - 1 + PHOTO_GALLERY.length) % PHOTO_GALLERY.length;
     updateLightboxView();
-    playAcousticBell(587.33, initAudio()?.currentTime || 0, 0.15);
+    playAcousticNote(587.33, getAudioCtx()?.currentTime || 0, 0.15);
   }
 
   if (lightboxCloseBtn) lightboxCloseBtn.addEventListener('click', closeLightbox);
@@ -411,7 +645,6 @@
   if (lightboxNextBtn) lightboxNextBtn.addEventListener('click', nextPhoto);
   if (lightboxPrevBtn) lightboxPrevBtn.addEventListener('click', prevPhoto);
 
-  // Keyboard navigation & Focus Trap
   window.addEventListener('keydown', (e) => {
     if (lightboxModal && lightboxModal.classList.contains('is-active')) {
       if (e.key === 'Escape') {
@@ -424,7 +657,6 @@
         e.preventDefault();
         prevPhoto();
       } else if (e.key === 'Tab') {
-        // Focus trap inside modal
         const focusable = [lightboxCloseBtn, lightboxPrevBtn, lightboxNextBtn].filter(Boolean);
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
@@ -440,7 +672,6 @@
     }
   });
 
-  // Attach Lightbox triggers to all elements with data-full
   document.addEventListener('click', (e) => {
     const targetImg = e.target.closest('[data-full]');
     if (targetImg) {
@@ -451,7 +682,6 @@
     }
   });
 
-  // Keyboard activation for lookbook items & portrait frame
   document.querySelectorAll('.lookbook-item, .hero-portrait-frame, .monograph-photo-accent, .letter-polaroid-keepsake, .epilogue-portrait-wrap').forEach(el => {
     el.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -465,7 +695,7 @@
   });
 
   // --------------------------------------------------------------------------
-  // 6. SANCTUARY OF THE CANDLE RITUAL
+  // 7. SANCTUARY OF THE CANDLE RITUAL
   // --------------------------------------------------------------------------
   const candleArtifact = document.getElementById('candleArtifact');
   const blowCandleBtn = document.getElementById('blowCandleBtn');
@@ -505,7 +735,7 @@
       if (blowCandleBtn) blowCandleBtn.setAttribute('aria-pressed', 'false');
       isCandleExtinguished = false;
 
-      playAcousticBell(783.99, initAudio()?.currentTime || 0, 0.3);
+      playAcousticNote(783.99, getAudioCtx()?.currentTime || 0, 0.3);
       if (ritualFortune) {
         ritualFortune.innerHTML = `<span>🔥 Flame re-ignited! Make another silent prayer and blow.</span>`;
       }
@@ -527,7 +757,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 7. THE CEREMONIAL WAX SEAL EPISTLE
+  // 8. THE CEREMONIAL WAX SEAL EPISTLE
   // --------------------------------------------------------------------------
   const epistleEnvelope = document.getElementById('epistleEnvelope');
   const waxSealBtn = document.getElementById('waxSealBtn');
@@ -562,7 +792,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 8. TACTILE 3D GALLERY CARD FLIP
+  // 9. TACTILE 3D GALLERY CARD FLIP
   // --------------------------------------------------------------------------
   const editorialFrames = document.querySelectorAll('.editorial-frame');
   editorialFrames.forEach(frame => {
@@ -572,7 +802,7 @@
       frame.classList.toggle('is-flipped', willBeFlipped);
       frame.setAttribute('aria-expanded', willBeFlipped ? 'true' : 'false');
 
-      playAcousticBell(587.33, initAudio()?.currentTime || 0, 0.2);
+      playAcousticNote(587.33, getAudioCtx()?.currentTime || 0, 0.2);
       if (navigator.vibrate) navigator.vibrate(12);
     }
 
@@ -586,7 +816,7 @@
   });
 
   // --------------------------------------------------------------------------
-  // 9. THE ORACLE OF REFLECTION DISPENSER
+  // 10. THE ORACLE OF REFLECTION DISPENSER
   // --------------------------------------------------------------------------
   const oracleNextBtn = document.getElementById('oracleNextBtn');
   const oracleQuote = document.getElementById('oracleQuote');
@@ -597,7 +827,7 @@
       oracleQuote.style.opacity = '0';
       oracleQuote.style.transform = 'scale(0.96)';
 
-      playAcousticBell(659.25, initAudio()?.currentTime || 0, 0.25);
+      playAcousticNote(659.25, getAudioCtx()?.currentTime || 0, 0.25);
       if (navigator.vibrate) navigator.vibrate(15);
 
       setTimeout(() => {
@@ -613,7 +843,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 10. CONSTELLATION GUESTBOOK & COLOR-BLINDNESS ACCESSIBLE TOAST
+  // 11. CONSTELLATION GUESTBOOK & ACCESSIBLE TOAST
   // --------------------------------------------------------------------------
   const wishesStream = document.getElementById('wishesStream');
   const blessingForm = document.getElementById('blessingForm');
@@ -706,7 +936,6 @@
       const name = nameEl.value.trim();
       const text = msgEl.value.trim();
 
-      // Form validation with non-color-reliant feedback for color blindness
       if (!name || !text) {
         showToast("⚠ Please provide both your name and your birthday blessing.", "error");
         if (!name) nameEl.focus();
@@ -737,7 +966,6 @@
     });
   }
 
-  // Non-color-reliant accessible toast messages (uses text prefix + distinct border + icon)
   function showToast(msg, type) {
     if (!formToastMsg) return;
     formToastMsg.textContent = msg;
@@ -762,7 +990,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 11. SCROLL TRACKER & RETURN TO TOP
+  // 12. SCROLL TRACKER & RETURN TO TOP
   // --------------------------------------------------------------------------
   const progressBar = document.getElementById('progressBar');
   function trackProgress() {
@@ -785,7 +1013,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 12. ACCESSIBLE THEME SWITCHER (DARK VELVET & LIGHT SILK)
+  // 13. ACCESSIBLE THEME SWITCHER
   // --------------------------------------------------------------------------
   const themeSwitchBtn = document.getElementById('themeSwitchBtn');
   function initTheme() {
@@ -804,18 +1032,10 @@
       document.documentElement.setAttribute('data-theme', target);
       localStorage.setItem('olaitan_theme_pref', target);
 
-      playAcousticBell(523.25, initAudio()?.currentTime || 0, 0.18);
+      playAcousticNote(523.25, getAudioCtx()?.currentTime || 0, 0.18);
     });
   }
   initTheme();
-
-  // --------------------------------------------------------------------------
-  // 13. SOUNDSCAPE TOGGLE
-  // --------------------------------------------------------------------------
-  const soundscapeBtn = document.getElementById('soundscapeBtn');
-  if (soundscapeBtn) {
-    soundscapeBtn.addEventListener('click', toggleSoundscape);
-  }
 
   // --------------------------------------------------------------------------
   // 14. DYNAMIC DOCK INTERACTIVITY
@@ -823,7 +1043,7 @@
   const dockCandleBtn = document.getElementById('dockCandleBtn');
   const dockGalleryBtn = document.getElementById('dockGalleryBtn');
   const dockLoveBurstBtn = document.getElementById('dockLoveBurstBtn');
-  const dockLetterBtn = document.getElementById('dockLetterBtn');
+  const dockJukeboxBtn = document.getElementById('dockJukeboxBtn');
   const dockBlessingBtn = document.getElementById('dockBlessingBtn');
 
   if (dockCandleBtn) {
@@ -847,10 +1067,9 @@
     });
   }
 
-  if (dockLetterBtn) {
-    dockLetterBtn.addEventListener('click', () => {
-      document.getElementById('act-letter')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      setTimeout(unsealEpistle, 600);
+  if (dockJukeboxBtn) {
+    dockJukeboxBtn.addEventListener('click', () => {
+      openJukebox();
     });
   }
 
@@ -860,7 +1079,7 @@
     });
   }
 
-  // Opening welcome shimmer
+  // Welcome Shimmer
   window.addEventListener('load', () => {
     setTimeout(() => {
       triggerSupernova(window.innerWidth / 2, window.innerHeight * 0.28, 65);

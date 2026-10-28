@@ -20,7 +20,7 @@
   <!-- Accessible Skip to Main Content Link -->
   <a href="#main-content" class="skip-to-content">Skip to main content</a>
 
-  <!-- Ambient Cinematic Grain & Aurora Mesh (Decorational - Hidden from Screen Readers) -->
+  <!-- Ambient Cinematic Grain & Aurora Mesh (Decorational) -->
   <div class="mesh-canvas-wrap" aria-hidden="true">
     <div class="aurora-orb orb-alpha"></div>
     <div class="aurora-orb orb-beta"></div>
@@ -33,6 +33,10 @@
 
   <!-- Tap Sparkle Particle Layer (Decorational) -->
   <div id="touchRippleLayer" class="touch-ripple-layer" aria-hidden="true"></div>
+
+  <!-- Background Audio Element for optional direct MP3 playback -->
+  <audio id="bgmAudio" src="song.mp3" preload="auto"></audio>
+  <input type="file" id="customAudioInput" accept="audio/*" class="visually-hidden" aria-label="Upload custom love song audio file">
 
   <!-- Fullscreen Photo Lightbox Modal with Full ARIA Accessibility -->
   <div class="lightbox-modal" id="lightboxModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Photo Lightbox Viewer">
@@ -48,6 +52,91 @@
     </div>
   </div>
 
+  <!-- NIGERIAN LOVE SONG JUKEBOX DRAWER -->
+  <div class="jukebox-modal" id="jukeboxModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Nigerian Love Song Jukebox">
+    <div class="jukebox-backdrop" id="jukeboxBackdrop" tabindex="-1"></div>
+    <div class="jukebox-sheet">
+      <div class="jukebox-drag-pill" aria-hidden="true"></div>
+      <div class="jukebox-header">
+        <div class="jukebox-badge">🇳🇬 AMEENAT'S SOUNDTRACK</div>
+        <h3>Nigerian Love Serenade</h3>
+        <p>Selected melodies celebrating the beauty and grace of Olaitan.</p>
+        <button class="jukebox-close-btn" id="jukeboxCloseBtn" aria-label="Close Jukebox">✕</button>
+      </div>
+
+      <!-- Real-time Animated Waveform Visualizer Display -->
+      <div class="jukebox-player-card">
+        <div class="vinyl-spin-wrap" id="vinylDisc">
+          <div class="vinyl-disc">
+            <div class="vinyl-groove"></div>
+            <div class="vinyl-center">
+              <span class="vinyl-flag">🇳🇬</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="player-info">
+          <span class="player-now-label">NOW SERENADING</span>
+          <h4 class="player-track-name" id="jukeboxTrackTitle">African Queen</h4>
+          <span class="player-artist" id="jukeboxArtist">2Baba (2Face Idibia)</span>
+
+          <!-- Animated Dynamic Frequency Sound Wave -->
+          <div class="jukebox-waveform" id="jukeboxWaveform" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Playlist Selection -->
+      <div class="jukebox-playlist" role="radiogroup" aria-label="Select Nigerian Love Song">
+        <button class="playlist-track is-active" data-track="african_queen" role="radio" aria-checked="true">
+          <span class="track-number">01</span>
+          <div class="track-details">
+            <span class="track-name">African Queen</span>
+            <span class="track-sub">2Baba • The Ultimate Classic Love Anthem</span>
+          </div>
+          <span class="track-play-icon">▶</span>
+        </button>
+
+        <button class="playlist-track" data-track="roju" role="radio" aria-checked="false">
+          <span class="track-number">02</span>
+          <div class="track-details">
+            <span class="track-name">Roju</span>
+            <span class="track-sub">Chike • “Baby mi roju o, I will love you forever...”</span>
+          </div>
+          <span class="track-play-icon">▶</span>
+        </button>
+
+        <button class="playlist-track" data-track="count_on_you" role="radio" aria-checked="false">
+          <span class="track-number">03</span>
+          <div class="track-details">
+            <span class="track-name">Count On You</span>
+            <span class="track-sub">Johnny Drille • Soulful Acoustic Love Ballad</span>
+          </div>
+          <span class="track-play-icon">▶</span>
+        </button>
+
+        <button class="playlist-track custom-track-btn" id="uploadCustomTrackBtn" role="radio" aria-checked="false">
+          <span class="track-number">📂</span>
+          <div class="track-details">
+            <span class="track-name">Play Any Song (Upload MP3)</span>
+            <span class="track-sub">Select her favorite love song from your device</span>
+          </div>
+          <span class="track-play-icon">＋</span>
+        </button>
+      </div>
+
+      <div class="jukebox-actions">
+        <button class="ceremonial-btn full-width" id="jukeboxMainPlayBtn">
+          <span class="btn-shimmer" aria-hidden="true"></span>
+          <span id="jukeboxPlayBtnText">Play Serenade 🎶</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Top Glass Editorial Navigation Bar -->
   <header class="editorial-nav" role="banner">
     <div class="nav-container">
@@ -59,12 +148,14 @@
       </div>
 
       <div class="nav-actions">
-        <!-- Ambient Soundscape Generator -->
-        <button id="soundscapeBtn" class="pill-nav-btn" aria-label="Toggle Ambient Audio Soundscape" aria-pressed="false" title="Toggle Soundscape">
+        <!-- NIGERIAN LOVE SONG SOUND WAVE CAPSULE -->
+        <button id="soundscapeBtn" class="pill-nav-btn love-song-nav-btn" aria-label="Play Nigerian Love Song: African Queen" aria-pressed="false" title="Nigerian Love Song Serenade">
+          <span class="audio-glyph" aria-hidden="true">🎶</span>
           <span class="audio-waves" aria-hidden="true">
             <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
           </span>
-          <span class="btn-caption">Soundscape</span>
+          <span class="btn-caption" id="songTitleCaption">African Queen</span>
         </button>
 
         <!-- Aesthetic Theme Switcher -->
@@ -652,9 +743,9 @@
       <span class="dock-glyph" aria-hidden="true">💖</span>
       <span class="dock-label">Celebrate</span>
     </button>
-    <button class="dock-item" id="dockLetterBtn" title="Read Epistle" aria-label="Jump to Ceremonial Epistle">
-      <span class="dock-glyph" aria-hidden="true">💌</span>
-      <span class="dock-label">Letter</span>
+    <button class="dock-item" id="dockJukeboxBtn" title="Play Nigerian Love Serenade" aria-label="Open Nigerian Love Song Jukebox">
+      <span class="dock-glyph" aria-hidden="true">🎵</span>
+      <span class="dock-label">Music</span>
     </button>
     <button class="dock-item" id="dockBlessingBtn" title="Leave Blessing" aria-label="Jump to Leave a Blessing Form">
       <span class="dock-glyph" aria-hidden="true">✍️</span>

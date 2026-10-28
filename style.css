@@ -1,6 +1,6 @@
 /* ==========================================================================
    OLAITAN AMEENAT — WORLD-CLASS EDITORIAL MONOGRAPH
-   WCAG 2.1 AAA Compliant • Color-Blindness Optimized • Mobile-First System
+   WCAG 2.1 AAA Compliant • Color-Blindness Optimized • Nigerian Love Song Engine
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -99,6 +99,18 @@
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 /* Accessible Skip-to-Content Link */
@@ -347,6 +359,11 @@ body.editorial-body {
   transition: all 0.25s var(--spring-editorial);
 }
 
+.pill-nav-btn.love-song-nav-btn {
+  background: linear-gradient(135deg, rgba(245, 197, 99, 0.15), rgba(255, 77, 121, 0.15));
+  border-color: var(--gold-primary);
+}
+
 .pill-nav-btn.icon-only {
   padding: 8px 12px;
   min-width: 44px;
@@ -357,33 +374,40 @@ body.editorial-body {
   transform: scale(0.92);
 }
 
+/* 8-Bar Dynamic Sound Waves in Header */
 .audio-waves {
   display: flex;
   align-items: flex-end;
-  gap: 2.5px;
-  height: 13px;
+  gap: 2px;
+  height: 15px;
 }
 
 .audio-waves span {
   display: block;
   width: 2px;
-  height: 6px;
+  height: 4px;
   background: var(--gold-primary);
   border-radius: 2px;
   transition: height 0.2s ease;
 }
 
 .pill-nav-btn.active-audio .audio-waves span {
-  animation: waveMotion 0.8s ease-in-out infinite alternate;
+  animation: wavePulse 0.9s ease-in-out infinite alternate;
 }
 
-.pill-nav-btn.active-audio .audio-waves span:nth-child(2) { animation-delay: 0.15s; }
+.pill-nav-btn.active-audio .audio-waves span:nth-child(1) { animation-delay: 0.05s; }
+.pill-nav-btn.active-audio .audio-waves span:nth-child(2) { animation-delay: 0.2s; }
 .pill-nav-btn.active-audio .audio-waves span:nth-child(3) { animation-delay: 0.35s; }
-.pill-nav-btn.active-audio .audio-waves span:nth-child(4) { animation-delay: 0.5s; }
+.pill-nav-btn.active-audio .audio-waves span:nth-child(4) { animation-delay: 0.1s; }
+.pill-nav-btn.active-audio .audio-waves span:nth-child(5) { animation-delay: 0.45s; }
+.pill-nav-btn.active-audio .audio-waves span:nth-child(6) { animation-delay: 0.25s; }
+.pill-nav-btn.active-audio .audio-waves span:nth-child(7) { animation-delay: 0.5s; }
+.pill-nav-btn.active-audio .audio-waves span:nth-child(8) { animation-delay: 0.15s; }
 
-@keyframes waveMotion {
-  0% { height: 4px; }
-  100% { height: 13px; }
+@keyframes wavePulse {
+  0% { height: 3px; }
+  50% { height: 14px; }
+  100% { height: 6px; }
 }
 
 .nav-progress-track {
@@ -1786,7 +1810,7 @@ body.editorial-body {
   gap: 6px;
   cursor: pointer;
   padding: 6px 14px;
-  min-height: 44px; /* Accessible Touch Target */
+  min-height: 44px;
   border-radius: 999px;
   transition: transform 0.2s var(--spring-snappy), background 0.2s ease;
 }
@@ -1899,7 +1923,7 @@ body.editorial-body {
   font-weight: 700;
   font-size: 0.92rem;
   padding: 14px 24px;
-  min-height: 48px; /* Accessible Touch Area */
+  min-height: 48px;
   border-radius: 999px;
   cursor: pointer;
   display: inline-flex;
@@ -1917,7 +1941,7 @@ body.editorial-body {
   transform: scale(0.96);
 }
 
-/* Color-Blindness Optimized Toast Messages (Uses Icons + Border + High Contrast Text) */
+/* Color-Blindness Optimized Toast Messages */
 .form-toast-msg {
   margin-top: 12px;
   font-size: 0.92rem;
@@ -1943,7 +1967,295 @@ body.editorial-body {
 }
 
 /* --------------------------------------------------------------------------
-   12. EPILOGUE & FOOTER (WITH PORTRAIT)
+   12. NIGERIAN LOVE SONG JUKEBOX DRAWER & VINYL VISUALIZER
+   -------------------------------------------------------------------------- */
+.jukebox-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.jukebox-modal.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.jukebox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 8, 19, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.jukebox-sheet {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 500px;
+  background: var(--bg-surface-solid);
+  border-top: 1px solid var(--border-subtle);
+  border-left: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  border-radius: 28px 28px 0 0;
+  padding: 16px 22px 34px;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+  transform: translateY(100%);
+  transition: transform 0.45s var(--spring-editorial);
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.jukebox-modal.is-active .jukebox-sheet {
+  transform: translateY(0);
+}
+
+.jukebox-drag-pill {
+  width: 44px;
+  height: 4px;
+  background: var(--border-subtle);
+  border-radius: 4px;
+  margin: 0 auto 14px;
+  opacity: 0.7;
+}
+
+.jukebox-header {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.jukebox-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--gold-primary);
+  margin-bottom: 4px;
+}
+
+.jukebox-header h3 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.jukebox-header p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.jukebox-close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Vinyl Player Card */
+.jukebox-player-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow-ambient);
+}
+
+.vinyl-spin-wrap {
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+}
+
+.vinyl-disc {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #2a2a2a 0%, #111111 70%, #000000 100%);
+  border: 2px solid #444444;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.vinyl-spin-wrap.is-spinning .vinyl-disc {
+  animation: spinVinyl 3.5s linear infinite;
+}
+
+@keyframes spinVinyl {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.vinyl-center {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--gold-primary);
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.player-info {
+  flex-grow: 1;
+}
+
+.player-now-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--gold-primary);
+  text-transform: uppercase;
+}
+
+.player-track-name {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin: 2px 0;
+}
+
+.player-artist {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* 12-Bar Soundwave in Jukebox Card */
+.jukebox-waveform {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 18px;
+}
+
+.jukebox-waveform span {
+  display: block;
+  width: 3px;
+  height: 4px;
+  background: var(--gold-primary);
+  border-radius: 2px;
+  transition: height 0.15s ease;
+}
+
+.jukebox-player-card.is-playing .jukebox-waveform span {
+  animation: dynamicWave 0.85s ease-in-out infinite alternate;
+}
+
+.jukebox-waveform span:nth-child(1) { animation-delay: 0.05s; }
+.jukebox-waveform span:nth-child(2) { animation-delay: 0.25s; }
+.jukebox-waveform span:nth-child(3) { animation-delay: 0.12s; }
+.jukebox-waveform span:nth-child(4) { animation-delay: 0.4s; }
+.jukebox-waveform span:nth-child(5) { animation-delay: 0.2s; }
+.jukebox-waveform span:nth-child(6) { animation-delay: 0.5s; }
+.jukebox-waveform span:nth-child(7) { animation-delay: 0.15s; }
+.jukebox-waveform span:nth-child(8) { animation-delay: 0.35s; }
+.jukebox-waveform span:nth-child(9) { animation-delay: 0.08s; }
+.jukebox-waveform span:nth-child(10) { animation-delay: 0.45s; }
+.jukebox-waveform span:nth-child(11) { animation-delay: 0.18s; }
+.jukebox-waveform span:nth-child(12) { animation-delay: 0.3s; }
+
+@keyframes dynamicWave {
+  0% { height: 3px; }
+  50% { height: 18px; }
+  100% { height: 6px; }
+}
+
+/* Playlist Tracks */
+.jukebox-playlist {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.playlist-track {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  min-height: 52px;
+}
+
+[data-theme="light"] .playlist-track {
+  background: #ffffff;
+}
+
+.playlist-track:hover,
+.playlist-track:focus-visible {
+  border-color: var(--gold-primary);
+  background: rgba(245, 197, 99, 0.08);
+}
+
+.playlist-track.is-active {
+  border-color: var(--gold-primary);
+  background: linear-gradient(135deg, rgba(245, 197, 99, 0.14), rgba(255, 77, 121, 0.14));
+}
+
+.track-number {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold-primary);
+  width: 24px;
+}
+
+.track-details {
+  flex-grow: 1;
+}
+
+.track-name {
+  display: block;
+  font-weight: 700;
+  font-size: 0.94rem;
+  color: var(--text-primary);
+}
+
+.track-sub {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.track-play-icon {
+  font-size: 1rem;
+  color: var(--gold-primary);
+}
+
+/* --------------------------------------------------------------------------
+   13. EPILOGUE & FOOTER
    -------------------------------------------------------------------------- */
 .editorial-epilogue {
   text-align: center;
@@ -2009,7 +2321,7 @@ body.editorial-body {
 }
 
 /* --------------------------------------------------------------------------
-   13. FULLSCREEN PHOTO LIGHTBOX MODAL
+   14. FULLSCREEN PHOTO LIGHTBOX MODAL
    -------------------------------------------------------------------------- */
 .lightbox-modal {
   position: fixed;
@@ -2087,7 +2399,7 @@ body.editorial-body {
   background: rgba(255, 255, 255, 0.15);
   border: 1px solid var(--border-subtle);
   border-radius: 50%;
-  width: 44px; /* Accessible 44px touch target */
+  width: 44px;
   height: 44px;
   color: #ffffff;
   font-size: 1.25rem;
@@ -2129,7 +2441,7 @@ body.editorial-body {
 }
 
 /* --------------------------------------------------------------------------
-   14. DYNAMIC DOCK (MOBILE-FIRST FLOATING CAPSULE WITH 44PX TARGETS)
+   15. DYNAMIC DOCK (MOBILE-FIRST FLOATING CAPSULE WITH 44PX TARGETS)
    -------------------------------------------------------------------------- */
 .dynamic-dock {
   position: fixed;
@@ -2165,7 +2477,7 @@ body.editorial-body {
   cursor: pointer;
   padding: 6px 8px;
   min-width: 48px;
-  min-height: 48px; /* Accessible Touch Area */
+  min-height: 48px;
   border-radius: 999px;
   color: var(--text-primary);
   transition: transform 0.2s var(--spring-snappy);
