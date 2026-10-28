@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#0b0813">
+  <meta name="description" content="A world-class digital tribute and celebration of grace, beauty, and intellect for Olaitan Ameenat.">
+  <title>Olaitan Ameenat — A Birthday Monograph 🕊️</title>
+
+  <!-- Typography: Editorial Serif & Refined Grotesque -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="editorial-body">
+
+  <!-- Ambient Cinematic Grain & Aurora Mesh -->
+  <div class="mesh-canvas-wrap" aria-hidden="true">
+    <div class="aurora-orb orb-alpha"></div>
+    <div class="aurora-orb orb-beta"></div>
+    <div class="aurora-orb orb-gamma"></div>
+    <div class="grain-overlay"></div>
+  </div>
+
+  <!-- Particle Supernova Canvas for Confetti & Candle Bursts -->
+  <canvas id="particleCanvas" aria-hidden="true"></canvas>
+
+  <!-- Tap Sparkle Particle Layer -->
+  <div id="touchRippleLayer" class="touch-ripple-layer" aria-hidden="true"></div>
+
+  <!-- Fullscreen Photo Lightbox Modal -->
+  <div class="lightbox-modal" id="lightboxModal" aria-hidden="true" role="dialog" aria-label="Photo Lightbox">
+    <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close-btn" id="lightboxCloseBtn" aria-label="Close Lightbox">✕</button>
+      <button class="lightbox-nav-btn prev-btn" id="lightboxPrevBtn" aria-label="Previous Photo">‹</button>
+      <div class="lightbox-img-wrap">
+        <img src="pics/1.JPG" alt="Olaitan Ameenat" id="lightboxImg">
+        <div class="lightbox-caption" id="lightboxCaption">Olaitan Ameenat • Chapter I</div>
+      </div>
+      <button class="lightbox-nav-btn next-btn" id="lightboxNextBtn" aria-label="Next Photo">›</button>
+    </div>
+  </div>
+
+  <!-- Top Glass Editorial Navigation Bar -->
+  <header class="editorial-nav">
+    <div class="nav-container">
+      <div class="nav-monogram">
+        <img src="pics/1.JPG" alt="Ameenat" class="nav-avatar">
+        <span class="mono-initials">OA</span>
+        <span class="mono-divider">/</span>
+        <span class="mono-date">CHAPTER XXVI</span>
+      </div>
+
+      <div class="nav-actions">
+        <!-- Ambient Soundscape Generator -->
+        <button id="soundscapeBtn" class="pill-nav-btn" aria-label="Toggle Ambient Audio" title="Soundscape">
+          <span class="audio-waves" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </span>
+          <span class="btn-caption">Soundscape</span>
+        </button>
+
+        <!-- Aesthetic Theme Switcher -->
+        <button id="themeSwitchBtn" class="pill-nav-btn icon-only" aria-label="Toggle Theme" title="Theme">
+          <span class="theme-icon">✨</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Reading Progress Indicator -->
+    <div class="nav-progress-track">
+      <div class="nav-progress-bar" id="progressBar"></div>
+    </div>
+  </header>
+
+  <main class="editorial-wrapper">
+
+    <!-- HERO ACT: THE INVOCATION -->
+    <section class="act-hero" id="act-hero">
+      <div class="hero-overtitle">
+        <span class="editorial-line"></span>
+        <span class="overtitle-text">A Celebration of Grace &amp; Wisdom</span>
+        <span class="editorial-line"></span>
+      </div>
+
+      <h1 class="hero-main-title">
+        <span class="title-sub">To The Incomparable</span>
+        <span class="title-name">Olaitan Ameenat</span>
+      </h1>
+
+      <!-- Glowing Bespoke Signature SVG -->
+      <div class="sig-container" aria-hidden="true">
+        <svg class="editorial-sig-svg" viewBox="0 0 800 170">
+          <defs>
+            <linearGradient id="sigGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fcedc7" />
+              <stop offset="50%" stop-color="#f5c563" />
+              <stop offset="100%" stop-color="#e69d45" />
+            </linearGradient>
+            <filter id="sigGlowFilter">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <text class="sig-path" x="50%" y="125" text-anchor="middle" filter="url(#sigGlowFilter)">Olaitan Ameenat</text>
+        </svg>
+      </div>
+
+      <!-- Hero Editorial Portrait Medallion -->
+      <div class="hero-portrait-wrap">
+        <div class="hero-portrait-halo"></div>
+        <div class="hero-portrait-frame">
+          <img src="pics/1.JPG" alt="Queen Olaitan Ameenat" class="hero-portrait-img" data-full="pics/1.JPG" data-caption="Queen Olaitan Ameenat • The Birthday Star">
+          <div class="hero-portrait-badge">
+            <span class="badge-spark">✨</span>
+            <span>The Birthday Queen</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="hero-manifesto">
+        Educator of luminous minds, custodian of gentle empathy, and the quiet sunshine in the lives of everyone blessed enough to know her. Today, the world celebrates the masterpiece that you are.
+      </p>
+
+      <!-- SANCTUARY OF THE CANDLE: A MINIMALIST LUMINESCENT SHRINE -->
+      <div class="candle-sanctuary" id="candleSanctuary">
+        <div class="sanctuary-halo"></div>
+        
+        <div class="luminescent-candle" id="candleArtifact">
+          <div class="flame-halo" id="flameHalo"></div>
+          <div class="flame-element" id="flameElement">
+            <div class="flame-inner"></div>
+          </div>
+          <div class="candle-wick"></div>
+          <div class="smoke-wisp" id="smokeWisp"></div>
+          <div class="glass-stem">
+            <div class="candle-wax-body"></div>
+          </div>
+          <div class="candle-base-pedestal"></div>
+        </div>
+
+        <div class="candle-controls">
+          <button class="ceremonial-btn" id="blowCandleBtn">
+            <span class="btn-shimmer"></span>
+            <span class="btn-icon-symbol">🕯️</span>
+            <span class="btn-label" id="candleBtnLabel">Blow The Flame &amp; Cast A Wish</span>
+          </button>
+          <div class="ritual-fortune" id="ritualFortune">
+            <span>Tap the flame or button to release birthday grace into the universe.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Metrics of Grace -->
+      <div class="hero-stats-row">
+        <div class="stat-cell">
+          <span class="stat-number">365</span>
+          <span class="stat-descriptor">Days of Radiance</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-cell">
+          <span class="stat-number">100%</span>
+          <span class="stat-descriptor">Devoted Educator</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-cell">
+          <span class="stat-number">∞</span >
+          <span class="stat-descriptor">Endless Love</span>
+        </div>
+      </div>
+
+      <a href="#act-virtues" class="scroll-down-invitation" aria-label="Explore the monograph">
+        <span class="invitation-text">Begin The Journey</span>
+        <div class="invitation-arrow"></div>
+      </a>
+    </section>
+
+
+    <!-- ACT I: THE ESSENCE (THE FOUR CORNERSTONES OF HER SOUL) -->
+    <section class="editorial-act" id="act-virtues">
+      <div class="act-header">
+        <span class="act-number">I / PORTRAIT</span>
+        <h2 class="act-title">The Cornerstones of Her Soul</h2>
+        <p class="act-subtitle">What makes Olaitan so cherished by the universe.</p>
+      </div>
+
+      <div class="virtues-mosaic">
+        <!-- Virtue 1 -->
+        <article class="virtue-tile" tabindex="0">
+          <div class="tile-backdrop"></div>
+          <div class="tile-header">
+            <span class="tile-index">01</span>
+            <span class="tile-glyph">🌸</span>
+          </div>
+          <h3 class="tile-heading">Gentle Radiance</h3>
+          <p class="tile-body">
+            You possess the quiet elegance that never needs to shout. In your presence, heavy hearts find stillness and weary souls find ease.
+          </p>
+          <div class="tile-footer">Aura of Solace</div>
+        </article>
+
+        <!-- Virtue 2 -->
+        <article class="virtue-tile featured" tabindex="0">
+          <div class="tile-backdrop"></div>
+          <div class="tile-header">
+            <span class="tile-index">02</span>
+            <span class="tile-glyph">📚</span>
+          </div>
+          <h3 class="tile-heading">The Dedicated Educator</h3>
+          <p class="tile-body">
+            Teaching for you is not a profession; it is an act of love. You sow seeds of knowledge that take root in hearts and bear fruit for decades.
+          </p>
+          <div class="tile-footer">Sower of Destinies</div>
+        </article>
+
+        <!-- Virtue 3 -->
+        <article class="virtue-tile" tabindex="0">
+          <div class="tile-backdrop"></div>
+          <div class="tile-header">
+            <span class="tile-index">03</span>
+            <span class="tile-glyph">✨</span>
+          </div>
+          <h3 class="tile-heading">Unwavering Kindness</h3>
+          <p class="tile-body">
+            Your generosity of spirit is boundless. You see the good in people before they even believe it in themselves.
+          </p>
+          <div class="tile-footer">Pure Heart</div>
+        </article>
+
+        <!-- Virtue 4 -->
+        <article class="virtue-tile" tabindex="0">
+          <div class="tile-backdrop"></div>
+          <div class="tile-header">
+            <span class="tile-index">04</span>
+            <span class="tile-glyph">💎</span>
+          </div>
+          <h3 class="tile-heading">Resilient Grace</h3>
+          <p class="tile-body">
+            Poised under pressure, principled in values, and endlessly faithful to the people who hold you dear. An authentic rare gem.
+          </p>
+          <div class="tile-footer">Crown of Dignity</div>
+        </article>
+      </div>
+
+      <!-- Affirmation Oracle Box -->
+      <div class="oracle-capsule">
+        <div class="oracle-eyebrow">A DAILY TRUTH FOR OLAITAN</div>
+        <blockquote class="oracle-quote" id="oracleQuote">
+          “Your heart gives without keeping count, and the heavens never forget a single seed you sow.”
+        </blockquote>
+        <button class="oracle-refresh-btn" id="oracleNextBtn">
+          <span>Reveal Another Reflection 💫</span>
+        </button>
+      </div>
+    </section>
+
+
+    <!-- ACT II: THE TRIBUTE TO AN INSPIRATIONAL TEACHER -->
+    <section class="editorial-act act-monograph" id="act-educator">
+      <div class="monograph-panel">
+        <div class="monograph-ornament">❦</div>
+        <div class="monograph-photo-accent">
+          <img src="pics/11.JPG" alt="Olaitan Ameenat teaching" class="educator-accent-img" data-full="pics/11.JPG" data-caption="Educator of Luminous Minds • Olaitan">
+        </div>
+        <h3 class="monograph-quote">
+          “A teacher affects eternity; she can never tell where her influence stops.”
+        </h3>
+        <p class="monograph-narrative">
+          Every child whose eyes you have opened, every lesson you have patiently prepared, and every tear you have wiped in the classroom is an eternal prayer written in gold. Olaitan, your legacy as an educator is immortal.
+        </p>
+        <div class="monograph-attribution">— In Tribute to Olaitan Ameenat's Vocation</div>
+      </div>
+    </section>
+
+
+    <!-- ACT III: THE GALLERY OF CHERISHED MOMENTS (WITH REAL PHOTOS) -->
+    <section class="editorial-act" id="act-gallery">
+      <div class="act-header">
+        <span class="act-number">II / ARCHIVE</span>
+        <h2 class="act-title">The Gallery of Cherished Moments</h2>
+        <p class="act-subtitle">Tap each framed memory to turn the card and read its handwritten note. Tap the photo to view in full resolution.</p>
+      </div>
+
+      <!-- 6 Featured Interactive 3D Polaroid Cards -->
+      <div class="gallery-mosaic">
+        <!-- Frame 1: pics/2.JPG -->
+        <div class="editorial-frame" tabindex="0">
+          <div class="frame-flipper">
+            <div class="frame-front">
+              <div class="vintage-tape"></div>
+              <div class="frame-visual">
+                <img src="pics/2.JPG" alt="The Incomparable Smile" class="polaroid-photo" data-full="pics/2.JPG" data-caption="The Incomparable Smile • Chapter I">
+                <span class="visual-badge">The Smile</span>
+              </div>
+              <div class="frame-meta">
+                <span class="meta-season">Chapter 01</span>
+                <h4>The Smile That Resets The Day</h4>
+              </div>
+              <div class="frame-flip-cta">Tap to flip ↺</div>
+            </div>
+            <div class="frame-back">
+              <div class="vintage-tape"></div>
+              <div class="back-body">
+                <span class="back-script-accent">Note #01</span>
+                <h5>The Golden Hour</h5>
+                <p>Never underestimate the healing in your laughter. It makes even the darkest day feel bathed in warm sunlight.</p>
+                <div class="back-signoff">Forever treasured ✨</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Frame 2: pics/3.JPG -->
+        <div class="editorial-frame" tabindex="0">
+          <div class="frame-flipper">
+            <div class="frame-front">
+              <div class="vintage-tape"></div>
+              <div class="frame-visual">
+                <img src="pics/3.JPG" alt="Passion & Elegance" class="polaroid-photo" data-full="pics/3.JPG" data-caption="Passion & Elegance • Chapter II">
+                <span class="visual-badge">The Calling</span>
+              </div>
+              <div class="frame-meta">
+                <span class="meta-season">Chapter 02</span>
+                <h4>Passion &amp; Dedication</h4>
+              </div>
+              <div class="frame-flip-cta">Tap to flip ↺</div>
+            </div>
+            <div class="frame-back">
+              <div class="vintage-tape"></div>
+              <div class="back-body">
+                <span class="back-script-accent">Note #02</span>
+                <h5>The Gift of Knowledge</h5>
+                <p>To watch you teach and guide others is to witness someone walking in divine alignment with their destiny.</p>
+                <div class="back-signoff">Proud of you always 🌸</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Frame 3: pics/4.JPG -->
+        <div class="editorial-frame" tabindex="0">
+          <div class="frame-flipper">
+            <div class="frame-front">
+              <div class="vintage-tape"></div>
+              <div class="frame-visual">
+                <img src="pics/4.JPG" alt="Grace Unbroken" class="polaroid-photo" data-full="pics/4.JPG" data-caption="Grace That Never Wavered • Chapter III">
+                <span class="visual-badge">The Heart</span>
+              </div>
+              <div class="frame-meta">
+                <span class="meta-season">Chapter 03</span>
+                <h4>Grace That Never Wavered</h4>
+              </div>
+              <div class="frame-flip-cta">Tap to flip ↺</div>
+            </div>
+            <div class="frame-back">
+              <div class="vintage-tape"></div>
+              <div class="back-body">
+                <span class="back-script-accent">Note #03</span>
+                <h5>Quiet Strength</h5>
+                <p>You carry yourself with the majesty of a queen and the tenderness of an angel. A rare and pure harmony.</p>
+                <div class="back-signoff">Endless devotion 💖</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Frame 4: pics/5.JPG -->
+        <div class="editorial-frame" tabindex="0">
+          <div class="frame-flipper">
+            <div class="frame-front">
+              <div class="vintage-tape"></div>
+              <div class="frame-visual">
+                <img src="pics/5.JPG" alt="The Unfolding Horizon" class="polaroid-photo" data-full="pics/5.JPG" data-caption="The Unfolding Horizon • Chapter IV">
+                <span class="visual-badge">The Future</span>
+              </div>
+              <div class="frame-meta">
+                <span class="meta-season">Chapter 04</span>
+                <h4>The Unfolding Horizon</h4>
+              </div>
+              <div class="frame-flip-cta">Tap to flip ↺</div>
+            </div>
+            <div class="frame-back">
+              <div class="vintage-tape"></div>
+              <div class="back-body">
+                <span class="back-script-accent">Note #04</span>
+                <h5>Your Best Chapter Yet</h5>
+                <p>May this new year greet you with opened doors, answered prayers, and unprecedented peace of mind.</p>
+                <div class="back-signoff">To forever 🥂</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Frame 5: pics/6.JPG -->
+        <div class="editorial-frame" tabindex="0">
+          <div class="frame-flipper">
+            <div class="frame-front">
+              <div class="vintage-tape"></div>
+              <div class="frame-visual">
+                <img src="pics/6.JPG" alt="Radiant Warmth" class="polaroid-photo" data-full="pics/6.JPG" data-caption="Radiant Warmth • Chapter V">
+                <span class="visual-badge">Pure Light</span>
+              </div>
+              <div class="frame-meta">
+                <span class="meta-season">Chapter 05</span>
+                <h4>Warmth in Every Stride</h4>
+              </div>
+              <div class="frame-flip-cta">Tap to flip ↺</div>
+            </div>
+            <div class="frame-back">
+              <div class="vintage-tape"></div>
+              <div class="back-body">
+                <span class="back-script-accent">Note #05</span>
+                <h5>The Sanctuary</h5>
+                <p>Being with you feels like home. Thank you for your warmth, your gentleness, and your loyal heart.</p>
+                <div class="back-signoff">My safe place 🌷</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Frame 6: pics/7.JPG -->
+        <div class="editorial-frame" tabindex="0">
+          <div class="frame-flipper">
+            <div class="frame-front">
+              <div class="vintage-tape"></div>
+              <div class="frame-visual">
+                <img src="pics/7.JPG" alt="Queenly Majesty" class="polaroid-photo" data-full="pics/7.JPG" data-caption="One of One • Chapter VI">
+                <span class="visual-badge">One of One</span>
+              </div>
+              <div class="frame-meta">
+                <span class="meta-season">Chapter 06</span>
+                <h4>In a League of Her Own</h4>
+              </div>
+              <div class="frame-flip-cta">Tap to flip ↺</div>
+            </div>
+            <div class="frame-back">
+              <div class="vintage-tape"></div>
+              <div class="back-body">
+                <span class="back-script-accent">Note #06</span>
+                <h5>Priceless Soul</h5>
+                <p>There is no one else like you on this earth. Never dim your shine for anyone. You are unmatched.</p>
+                <div class="back-signoff">Queen Olaitan 👑</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPLETE LOOKBOOK FILMSTRIP: ALL 17 MOMENTS -->
+      <div class="lookbook-section">
+        <div class="lookbook-header">
+          <span class="lookbook-tag">✦ THE FULL REEL • 17 MEMORIES</span>
+          <h3>The Lookbook Filmstrip</h3>
+          <p>Swipe through all of Olaitan's moments. Tap any photo to enlarge.</p>
+        </div>
+
+        <div class="lookbook-strip-wrapper">
+          <div class="lookbook-strip" id="lookbookStrip">
+            <div class="lookbook-item"><img src="pics/1.JPG" alt="Olaitan Memory 1" loading="lazy" data-full="pics/1.JPG" data-caption="Radiant Queen • 01"><span>01</span></div>
+            <div class="lookbook-item"><img src="pics/2.JPG" alt="Olaitan Memory 2" loading="lazy" data-full="pics/2.JPG" data-caption="The Sweetest Laugh • 02"><span>02</span></div>
+            <div class="lookbook-item"><img src="pics/3.JPG" alt="Olaitan Memory 3" loading="lazy" data-full="pics/3.JPG" data-caption="Educator of Minds • 03"><span>03</span></div>
+            <div class="lookbook-item"><img src="pics/4.JPG" alt="Olaitan Memory 4" loading="lazy" data-full="pics/4.JPG" data-caption="Pure Poise & Grace • 04"><span>04</span></div>
+            <div class="lookbook-item"><img src="pics/5.JPG" alt="Olaitan Memory 5" loading="lazy" data-full="pics/5.JPG" data-caption="Chasing Horizons • 05"><span>05</span></div>
+            <div class="lookbook-item"><img src="pics/6.JPG" alt="Olaitan Memory 6" loading="lazy" data-full="pics/6.JPG" data-caption="Softness & Strength • 06"><span>06</span></div>
+            <div class="lookbook-item"><img src="pics/7.JPG" alt="Olaitan Memory 7" loading="lazy" data-full="pics/7.JPG" data-caption="Unwavering Faith • 07"><span>07</span></div>
+            <div class="lookbook-item"><img src="pics/8.JPG" alt="Olaitan Memory 8" loading="lazy" data-full="pics/8.JPG" data-caption="Sunshine Energy • 08"><span>08</span></div>
+            <div class="lookbook-item"><img src="pics/9.JPG" alt="Olaitan Memory 9" loading="lazy" data-full="pics/9.JPG" data-caption="Flawless Elegance • 09"><span>09</span></div>
+            <div class="lookbook-item"><img src="pics/10.JPG" alt="Olaitan Memory 10" loading="lazy" data-full="pics/10.JPG" data-caption="A Heart of Gold • 10"><span>10</span></div>
+            <div class="lookbook-item"><img src="pics/11.JPG" alt="Olaitan Memory 11" loading="lazy" data-full="pics/11.JPG" data-caption="Inspiring Future Generations • 11"><span>11</span></div>
+            <div class="lookbook-item"><img src="pics/12.JPG" alt="Olaitan Memory 12" loading="lazy" data-full="pics/12.JPG" data-caption="Gentle Joy • 12"><span>12</span></div>
+            <div class="lookbook-item"><img src="pics/13.JPG" alt="Olaitan Memory 13" loading="lazy" data-full="pics/13.JPG" data-caption="Every Season Beautiful • 13"><span>13</span></div>
+            <div class="lookbook-item"><img src="pics/14.JPG" alt="Olaitan Memory 14" loading="lazy" data-full="pics/14.JPG" data-caption="Cherished Forever • 14"><span>14</span></div>
+            <div class="lookbook-item"><img src="pics/15.JPG" alt="Olaitan Memory 15" loading="lazy" data-full="pics/15.JPG" data-caption="Blessed & Highly Favored • 15"><span>15</span></div>
+            <div class="lookbook-item"><img src="pics/16.JPG" alt="Olaitan Memory 16" loading="lazy" data-full="pics/16.JPG" data-caption="Peace in Her Presence • 16"><span>16</span></div>
+            <div class="lookbook-item"><img src="pics/17.JPG" alt="Olaitan Memory 17" loading="lazy" data-full="pics/17.JPG" data-caption="A Lifetime of Love • 17"><span>17</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ACT IV: THE CONFIDENTIAL EPISTLE (THE CEREMONIAL ENVELOPE) -->
+    <section class="editorial-act" id="act-letter">
+      <div class="act-header">
+        <span class="act-number">III / EPISTLE</span>
+        <h2 class="act-title">A Letter From The Core of My Heart</h2>
+        <p class="act-subtitle">Sealed with wax. Touch the monogram seal to unroll the parchment.</p>
+      </div>
+
+      <div class="ceremonial-envelope-box">
+        <div class="epistle-envelope" id="epistleEnvelope">
+          <div class="envelope-underlay"></div>
+
+          <!-- Unfolding Letter Paper -->
+          <article class="parchment-sheet" id="parchmentSheet">
+            <div class="parchment-texture"></div>
+            <div class="parchment-content">
+              <div class="parchment-header">
+                <span class="parchment-salutation">My Dearest Olaitan Ameenat,</span>
+                <span class="parchment-date">A Sacred Day</span>
+              </div>
+
+              <!-- Keepsake Polaroid inside the letter -->
+              <div class="letter-polaroid-keepsake">
+                <img src="pics/10.JPG" alt="Olaitan Ameenat Keepsake" data-full="pics/10.JPG" data-caption="Forever My Favorite Smile • Olaitan">
+                <div class="keepsake-tape"></div>
+                <span class="keepsake-caption">Forever my favorite smile 🌸</span>
+              </div>
+
+              <div class="parchment-text">
+                <p>
+                  Today, I look at you and I see a world that is vastly better, kinder, and softer simply because you exist in it.
+                </p>
+                <p>
+                  Every single day, I observe the tireless devotion you pour into everyone around you—your students who look up to you with shining eyes, your family who finds refuge in your presence, and everyone lucky enough to be loved by you. You give without hesitating, you inspire without vanity, and your heart is a sanctuary.
+                </p>
+                <p>
+                  My single prayer for you on this milestone is that every ounce of light, encouragement, laughter, and healing you have given away returns into your life a thousand-fold. May God preserve your radiant smile, grant you peaceful nights, and lead you into rooms where your gifts are celebrated without measure.
+                </p>
+                <p>
+                  Happy Birthday, my queen. Loving you is the easiest, greatest privilege of my life.
+                </p>
+              </div>
+
+              <div class="parchment-valediction">
+                <span>Eternally &amp; Wholly Yours,</span>
+                <span class="parchment-handwriting">Forever In Your Corner 💗</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Envelope Pocket & Flap -->
+          <div class="envelope-pocket-front"></div>
+          <div class="envelope-crease-flap" id="envelopeFlap">
+            <!-- Physical Monogrammed Wax Seal -->
+            <button class="monogram-wax-seal" id="waxSealBtn" aria-label="Crack seal and open letter" title="Break the wax seal">
+              <span class="seal-brass-rim"></span>
+              <span class="seal-core">
+                <span class="seal-letters">OA</span>
+              </span>
+              <span class="seal-ambient-ring"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="seal-status-hint" id="sealStatusHint">
+          <span>✨ Touch the golden wax seal to unwrap your letter</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ACT V: THE CONSTELLATION OF WISHES (GUESTBOOK & SHARING) -->
+    <section class="editorial-act" id="act-wishes">
+      <div class="act-header">
+        <span class="act-number">IV / CONSTELLATION</span>
+        <h2 class="act-title">Wishes From Her Beloved Circle</h2>
+        <p class="act-subtitle">Messages sent to celebrate Olaitan’s grace. Tap heart to send love.</p>
+      </div>
+
+      <!-- Feed of Wishes -->
+      <div class="constellation-stream" id="wishesStream">
+        <!-- Rendered via script -->
+      </div>
+
+      <!-- Guestbook Add Form -->
+      <div class="guestbook-panel">
+        <div class="panel-header">
+          <span class="panel-icon">✒️</span>
+          <h3>Leave Olaitan Your Blessing</h3>
+          <p>Your message will appear instantly on her personal board.</p>
+        </div>
+
+        <form id="blessingForm" class="blessing-form">
+          <div class="input-block">
+            <label for="authorName">Your Name / Relationship</label>
+            <input type="text" id="authorName" placeholder="e.g. Auntie / Dearest Friend" required maxlength="50">
+          </div>
+
+          <div class="input-block">
+            <label for="authorMessage">Your Birthday Message &amp; Prayer</label>
+            <textarea id="authorMessage" rows="3" placeholder="Write your words of love and blessings..." required maxlength="400"></textarea>
+          </div>
+
+          <div class="form-btn-group">
+            <button type="submit" class="ceremonial-btn full-width">
+              <span class="btn-shimmer"></span>
+              <span>Post Blessing On Her Wall 🌸</span>
+            </button>
+            <button type="button" class="editorial-outline-btn full-width" id="directShareWhatsappBtn">
+              <span>Send Straight to Her WhatsApp 💬</span>
+            </button>
+          </div>
+        </form>
+
+        <div class="form-toast-msg" id="formToastMsg" role="status"></div>
+      </div>
+    </section>
+
+
+    <!-- EPILOGUE: THE FINAL BENEDICTION -->
+    <footer class="editorial-epilogue">
+      <div class="epilogue-portrait-wrap">
+        <img src="pics/17.JPG" alt="Forever Ameenat" class="epilogue-portrait-img" data-full="pics/17.JPG" data-caption="Forever Cherished • Queen Olaitan Ameenat">
+      </div>
+      
+      <div class="epilogue-monogram">OA</div>
+      
+      <div class="sig-container miniature" aria-hidden="true">
+        <svg class="editorial-sig-svg" viewBox="0 0 800 170">
+          <text class="sig-path static" x="50%" y="125" text-anchor="middle">Olaitan Ameenat</text>
+        </svg>
+      </div>
+
+      <p class="epilogue-blessing">
+        May the road rise to meet your gentle steps, and may the wind be forever at your back.
+      </p>
+
+      <button class="editorial-outline-btn" id="returnToTopBtn">
+        <span>Ascend To Beginning ↑</span>
+      </button>
+
+      <div class="epilogue-credits">
+        <span>Crafted With Undying Devotion • A Tribute To Ameenat</span>
+        <small>© Forever In Celebration</small>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- WORLD-CLASS DYNAMIC DOCK (MOBILE-FIRST FLOATING CAPSULE) -->
+  <nav class="dynamic-dock" id="dynamicDock" aria-label="Quick Actions">
+    <button class="dock-item" id="dockCandleBtn" title="Shrine & Wish">
+      <span class="dock-glyph">🕯️</span>
+      <span class="dock-label">Wish</span>
+    </button>
+    <button class="dock-item" id="dockGalleryBtn" title="Photo Gallery">
+      <span class="dock-glyph">📸</span>
+      <span class="dock-label">Photos</span>
+    </button>
+    <button class="dock-item hero-action" id="dockLoveBurstBtn" title="Cast Love Particle Supernova">
+      <span class="dock-glyph">💖</span>
+      <span class="dock-label">Celebrate</span>
+    </button>
+    <button class="dock-item" id="dockLetterBtn" title="Read Epistle">
+      <span class="dock-glyph">💌</span>
+      <span class="dock-label">Letter</span>
+    </button>
+    <button class="dock-item" id="dockBlessingBtn" title="Leave Blessing">
+      <span class="dock-glyph">✍️</span>
+      <span class="dock-label">Bless</span>
+    </button>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
