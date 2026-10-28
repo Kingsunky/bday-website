@@ -1,5 +1,5 @@
 /* ==========================================================================
-   OLAITAN AMEENAT — WORLD-CLASS EDITORIAL MONOGRAPH
+   OLAITAN OLASUNKANMI AMEENAT — WORLD-CLASS EDITORIAL MONOGRAPH
    WCAG 2.1 AAA Compliant • Color-Blindness Optimized • Nigerian Love Song Engine
    ========================================================================== */
 
@@ -504,7 +504,7 @@ body.editorial-body {
 /* Signature SVG */
 .sig-container {
   width: 100%;
-  max-width: 480px;
+  max-width: 560px;
   margin: -14px auto 14px;
 }
 
@@ -516,19 +516,19 @@ body.editorial-body {
 
 .sig-path {
   font-family: var(--font-cursive);
-  font-size: 78px;
+  font-size: 64px;
   fill: url(#sigGoldGrad);
   stroke: url(#sigGoldGrad);
   stroke-width: 1.2;
-  stroke-dasharray: 1200;
-  stroke-dashoffset: 1200;
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
   animation: drawSig 3.5s var(--spring-editorial) 0.3s forwards;
 }
 
 .sig-path.static {
   stroke-dashoffset: 0;
   animation: none;
-  font-size: 68px;
+  font-size: 56px;
 }
 
 @keyframes drawSig {
@@ -1566,7 +1566,8 @@ body.editorial-body {
 .seal-letters {
   font-family: var(--font-serif);
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: 1.12rem;
+  letter-spacing: 0.08em;
   color: #ffffff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }

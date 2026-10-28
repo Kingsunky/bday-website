@@ -1,6 +1,6 @@
 /**
  * ==========================================================================
- * OLAITAN AMEENAT — WORLD-CLASS EDITORIAL MONOGRAPH ENGINE
+ * OLAITAN OLASUNKANMI AMEENAT — WORLD-CLASS EDITORIAL MONOGRAPH ENGINE
  * Featuring Nigerian Love Song Soundscape Engine & Real-Time Waveform Visualizer
  * ==========================================================================
  */
@@ -15,23 +15,23 @@
 
   // Photo gallery registry
   const PHOTO_GALLERY = [
-    { src: "pics/1.JPG", caption: "Queen Olaitan Ameenat • The Birthday Star" },
-    { src: "pics/2.JPG", caption: "The Incomparable Smile • Chapter I" },
-    { src: "pics/3.JPG", caption: "Passion & Elegance • Chapter II" },
-    { src: "pics/4.JPG", caption: "Grace That Never Wavered • Chapter III" },
-    { src: "pics/5.JPG", caption: "The Unfolding Horizon • Chapter IV" },
-    { src: "pics/6.JPG", caption: "Radiant Warmth • Chapter V" },
-    { src: "pics/7.JPG", caption: "In a League of Her Own • Chapter VI" },
-    { src: "pics/8.JPG", caption: "Pure Sunshine & Energy • Chapter VII" },
-    { src: "pics/9.JPG", caption: "Flawless Demeanor • Chapter VIII" },
-    { src: "pics/10.JPG", caption: "A Heart of Pure Gold • Chapter IX" },
-    { src: "pics/11.JPG", caption: "Educator of Luminous Minds • Chapter X" },
-    { src: "pics/12.JPG", caption: "Gentle Peace & Joy • Chapter XI" },
-    { src: "pics/13.JPG", caption: "Every Season Beautiful • Chapter XII" },
-    { src: "pics/14.JPG", caption: "Treasured Moments • Chapter XIII" },
-    { src: "pics/15.JPG", caption: "Blessed & Highly Favored • Chapter XIV" },
-    { src: "pics/16.JPG", caption: "Serenity in Motion • Chapter XV" },
-    { src: "pics/17.JPG", caption: "A Lifetime of Love & Celebration • Epilogue" }
+    { src: "pics/1.JPG", caption: "Queen Olaitan Olasunkanmi Ameenat • The Birthday Star" },
+    { src: "pics/2.JPG", caption: "The Incomparable Smile • Moment 01" },
+    { src: "pics/3.JPG", caption: "Passion & Elegance • Moment 02" },
+    { src: "pics/4.JPG", caption: "Grace That Never Wavered • Moment 03" },
+    { src: "pics/5.JPG", caption: "The Unfolding Horizon • Moment 04" },
+    { src: "pics/6.JPG", caption: "Radiant Warmth • Moment 05" },
+    { src: "pics/7.JPG", caption: "In a League of Her Own • Moment 06" },
+    { src: "pics/8.JPG", caption: "Pure Sunshine & Energy • Moment 07" },
+    { src: "pics/9.JPG", caption: "Flawless Demeanor • Moment 08" },
+    { src: "pics/10.JPG", caption: "A Heart of Pure Gold • Moment 09" },
+    { src: "pics/11.JPG", caption: "Educator of Luminous Minds • Moment 10" },
+    { src: "pics/12.JPG", caption: "Gentle Peace & Joy • Moment 11" },
+    { src: "pics/13.JPG", caption: "Every Season Beautiful • Moment 12" },
+    { src: "pics/14.JPG", caption: "Treasured Moments • Moment 13" },
+    { src: "pics/15.JPG", caption: "Blessed & Highly Favored • Moment 14" },
+    { src: "pics/16.JPG", caption: "Serenity in Motion • Moment 15" },
+    { src: "pics/17.JPG", caption: "A Lifetime of Love & Celebration" }
   ];
 
   let currentPhotoIndex = 0;
@@ -677,7 +677,7 @@
     if (targetImg) {
       e.stopPropagation();
       const src = targetImg.getAttribute('data-full');
-      const caption = targetImg.getAttribute('data-caption') || targetImg.getAttribute('alt') || 'Olaitan Ameenat';
+      const caption = targetImg.getAttribute('data-caption') || targetImg.getAttribute('alt') || 'Olaitan Olasunkanmi Ameenat';
       openLightbox(src, caption);
     }
   });
@@ -688,7 +688,7 @@
         e.preventDefault();
         const img = el.querySelector('[data-full]') || el;
         const src = img.getAttribute('data-full');
-        const caption = img.getAttribute('data-caption') || img.getAttribute('alt') || 'Olaitan Ameenat';
+        const caption = img.getAttribute('data-caption') || img.getAttribute('alt') || 'Olaitan Olasunkanmi Ameenat';
         if (src) openLightbox(src, caption);
       }
     });
@@ -981,9 +981,9 @@
     directShareWhatsappBtn.addEventListener('click', () => {
       const name = document.getElementById('authorName')?.value.trim() || 'A loved one';
       const text = document.getElementById('authorMessage')?.value.trim() || 
-                   'Happy Birthday Olaitan Ameenat! May this milestone year bring you overflowing joy, peace, and glory! 🌸🥂';
+                   'Happy Birthday Olaitan Olasunkanmi Ameenat! May you continue to shine with overflowing joy, peace, and glory! 🌸🥂';
 
-      const payload = `🕊️ *Birthday Blessing for Olaitan Ameenat* 🌸\n\n"${text}"\n\n— *From:* ${name}\n\n*Celebrated with timeless affection.* ✨`;
+      const payload = `🕊️ *Birthday Blessing for Olaitan Olasunkanmi Ameenat* 🌸\n\n"${text}"\n\n— *From:* ${name}\n\n*Celebrated with timeless affection.* ✨`;
       const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(payload)}`;
       window.open(url, '_blank');
     });
